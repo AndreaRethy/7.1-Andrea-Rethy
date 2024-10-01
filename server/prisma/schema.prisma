@@ -14,13 +14,14 @@ datasource db {
 }
 
 model User {
-  id  Int @id @default(autoincrement())
-  username  String @unique
-  password  String
-  name String
-  createdAt DateTime @default(now())
-  role Role @default(USER)
-  publications Publication[]
+  id           Int           @id @default(autoincrement())
+  username     String        @unique
+  password     String
+  name         String
+  createdAt    DateTime      @default(now())
+  role         Role          @default(USER)
+  publications Publication[] @relation("WrittenPosts")
+  liked        Publication[] @relation("LikedPosts")
 }
 
 enum Role {
@@ -29,12 +30,15 @@ enum Role {
 }
 
 model Publication {
-  id Int @id @default(autoincrement())
-  title  String @unique
-  content String @unique
-  createdAt DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  title       String   @unique
+  content     String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   modifiedAt  DateTime @default(now())
-  likeCount Int
-  user User @relation(fields: [username], references: [username])
-  username String
+  likeCount   Int
+  author      User     @relation("WrittenPosts", fields: [authorname], references: [username])
+  authorname  String
+  likedBy     User?    @relation("LikedPosts", fields: [likedByname], references: [username])
+  likedByname String?
 }
