@@ -1,12 +1,19 @@
 {
   "name": "7.1-andrea-rethy",
   "version": "1.0.0",
-  "description": "App de Blog (nuevo Sprint 5)",
+  "description": "App de Blog",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install:frontend": "cd client && npm install",
+    "install:backend": "cd server && npm install",
+    "install": "npm run install:frontend && npm run install:backend",
+    "build:frontend": "cd client && npm run build",
+    "build:backend": "cd server && npm run build",
+    "start:frontend": "cd client && npm start",
+    "start:backend": "cd server && npm start",
+    "start:dev": "concurrently \"npm:start:frontend\" \"npm:start:backend\""
   },
   "keywords": [],
-  "author": "",
+  "author": "Andrea Réthy",
   "license": "ISC"
 }

@@ -1,0 +1,11 @@
+Hay que crear una base de datos llamada blog-app en mysql y lanzar el schema.prisma para cargarla con sus tablas:
+npx prisma migrate dev --name init
+npx prisma generate
+
+Para editar base datos:
+npx prisma migrate reset
+npx prisma migrate dev --name newname
+npx prisma generate
+
+Para formatear la schema:
+npx prisma format
