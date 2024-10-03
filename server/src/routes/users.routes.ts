@@ -1,8 +1,13 @@
 import { Router } from 'express';
-import { prisma } from '../db.js';
+// import { prisma } from '../db.js';
+import { UserController } from 'src/infrastructure/controllers/userController.js';
 
 const router = Router();
+const userController = new UserController();
 
+router.get("/users", userController.getAllUsers);
+
+/*
 router.get('/users', async (_, res) => {
     const users = await prisma.user.findMany();
     res.json(users);
@@ -13,10 +18,10 @@ router.get('/users/:id', async (req, res) => {
         where: {
             id: parseInt(req.params.id),
         },
-       /* include: {
-            publications: true,
-            liked: true
-        } */
+       // include: {
+        //    publications: true,
+       //     liked: true
+       // } 
     });
     if (!foundUser) {
         return res.status(404).json({ error: "User not found" })
@@ -55,5 +60,6 @@ router.delete('/users/:id', async (req, res) => {
     }
     return res.json(deletedUser);
 });
+ */
 
 export default router;
