@@ -7,8 +7,9 @@ export class User {
    public name: String;
    public createdAt: Date | undefined;
    public role: "USER" | "ADMIN" = "USER";
+   public isBanned: Boolean = false;
    public publications: Publication[] = [];
-   public liked: Publication[] = [];
+   public likedPublications: Publication[] = [];
 
    constructor(id: Number, username: String, password: String, name: String, createdAt: Date | undefined) {
     this.id = id;

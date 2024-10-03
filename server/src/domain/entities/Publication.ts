@@ -7,6 +7,7 @@ export class Publication {
     public createdAt: Date | undefined;
     public updatedAt: Date | undefined;
     public likeCount: Number;
+    public isDeleted: Boolean = false;
     public author?: User;
     public likedBy: User[] = [];
 
