@@ -35,7 +35,6 @@ model Publication {
   content     String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  modifiedAt  DateTime @default(now())
   likeCount   Int
   author      User     @relation("WrittenPosts", fields: [authorname], references: [username])
   authorname  String
