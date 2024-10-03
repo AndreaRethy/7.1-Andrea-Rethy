@@ -1,4 +1,4 @@
-import { UserRepositoryImpl } from "../repositories/UserRepositoryImpl.js";
+import { UserRepositoryImpl } from '../repositories/userRepositoryImpl.js';
 import { User } from '@prisma/client';
 
 export class UserService {

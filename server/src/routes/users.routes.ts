@@ -1,6 +1,6 @@
 import { Router } from 'express';
 // import { prisma } from '../db.js';
-import { UserController } from 'src/infrastructure/controllers/userController.js';
+import { UserController } from '../infrastructure/controllers/userController.js';
 
 const router = Router();
 const userController = new UserController();
