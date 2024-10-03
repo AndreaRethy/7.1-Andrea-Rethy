@@ -8,11 +8,6 @@ const userController = new UserController();
 router.get("/users", userController.getAllUsers);
 
 /*
-router.get('/users', async (_, res) => {
-    const users = await prisma.user.findMany();
-    res.json(users);
-});
-
 router.get('/users/:id', async (req, res) => {
     const foundUser = await prisma.user.findUnique({
         where: {
