@@ -38,6 +38,5 @@ model Publication {
   likeCount   Int
   author      User     @relation("WrittenPosts", fields: [authorname], references: [username])
   authorname  String
-  likedBy     User?    @relation("LikedPosts", fields: [likedByname], references: [username])
-  likedByname String?
+  likedBy     User[]   @relation("LikedPosts")
 }
