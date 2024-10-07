@@ -5,6 +5,6 @@ export interface UserRepository {
     getUserById(id: Number): Promise<User | null>;
     getUserLogin(username: String, password: String): Promise<User | null>;
     createUser(user: User): Promise<User>;
-    updateUser(id: Number): Promise<void>;
-    banUser(id: Number): Promise<void>;
+    updateUser(id: Number): Promise<User | null>;
+    banUser(id: Number): Promise<User | null>;
 }
