@@ -43,7 +43,7 @@ export class UserRepositoryImpl {
         }
     }
 
-    async banUser(
+    async updateUserByAdmin(
         id: number,
         data: Partial<Omit<User, "id">>
       ): Promise<User | null> {

@@ -92,7 +92,7 @@ export class UserController {
         }
       }
 
-      async banUser(req: Request, res: Response) {
+      async updateUserByAdmin(req: Request, res: Response) {
         const { id } = req.params;
         const ID = parseInt(id);
         const { role, isBanned } = req.body;

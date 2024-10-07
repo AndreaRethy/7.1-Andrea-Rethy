@@ -52,7 +52,7 @@ export class UserService {
         return await this.userRepository.updateUser(id, data);
     }
 
-    async banUser(
+    async updateUserByAdmin(
         id: number,
         data: Partial<Omit<User, "id">>
       ): Promise<User | null> {
