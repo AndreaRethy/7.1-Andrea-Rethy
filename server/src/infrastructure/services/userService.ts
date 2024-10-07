@@ -36,7 +36,7 @@ export class UserService {
     }
 
     async createUser(
-        data: Omit<User, "id" | "createdAt">
+        data: Omit<User, "id" | "createdAt" | "role" | "isBanned">
       ): Promise<User> {
         return await this.userRepository.createUser(data);
     }

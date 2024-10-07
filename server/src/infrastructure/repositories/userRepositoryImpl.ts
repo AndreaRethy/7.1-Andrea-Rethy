@@ -19,7 +19,7 @@ export class UserRepositoryImpl {
     }
 
     async createUser(
-        data: Omit<User, "id" | "createdAt">
+        data: Omit<User, "id" | "createdAt" | "role" | "isBanned">
       ): Promise<User> {
         return await prisma.user.create({
           data: {
