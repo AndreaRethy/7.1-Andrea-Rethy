@@ -36,7 +36,7 @@ export class UserController {
       }
 
       async getUserLogin(req: Request, res: Response) {
-        const { username, password } = req.params;
+        const { username, password } = req.body;
     
         if (!username || !password) {
             return res.status(400).json({ message: "Missing required field(s)" });
@@ -96,7 +96,7 @@ export class UserController {
         const { id } = req.params;
         const ID = parseInt(id);
         const { role, isBanned } = req.body;
-        if (!role || !isBanned) {
+        if (role === undefined || isBanned === undefined) {
           return res.status(400).json({ message: "Error updating: missing field(s)" });
         }
         try {
