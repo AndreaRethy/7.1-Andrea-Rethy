@@ -2,6 +2,10 @@ import { prisma } from '../../db.js';
 import { Publication } from "@prisma/client";
 
 export class publicationRepositoryImpl {
+    async getAllPublications(): Promise<Publication[]> {
+        return await prisma.publication.findMany();
+    }
+
     async getPublicationsForUser(username: string): Promise<Publication[]> {
         return await prisma.publication.findMany({
             where: {
@@ -10,6 +14,12 @@ export class publicationRepositoryImpl {
               },
             },
           });
+    }
+
+    async getPublicationById(id: number): Promise<Publication | null> {
+        return await prisma.publication.findUnique({
+            where: { id },
+        });
     }
 
     async createPublication(data: 
