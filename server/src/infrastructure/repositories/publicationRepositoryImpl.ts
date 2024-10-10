@@ -23,23 +23,26 @@ export class publicationRepositoryImpl {
     }
 
     async createPublication(data: 
-        Omit<Publication, "id" | "createdAt" | "updatedAt">
+        Omit<Publication, "id" | "createdAt" | "updatedAt" | "likeCount" | "isDeleted">
     ): Promise<Publication> {
         return await prisma.publication.create({
             data: {
                 ...data,
+                likeCount: 0,
+                isDeleted: false,
             },
         });
     }
 
-    async likePublication(
-        id: number,
-        data: Partial<Omit<Publication, "id">>
-    ): Promise<Publication | null> {
+    async likePublication(id: number): Promise<Publication> {
         try {
             return await prisma.publication.update({
                 where: { id },
-                data,
+                data: {
+                    likeCount: {
+                        increment: 1,
+                    }
+                }
               });
         } catch (error) {
             throw new Error(`Publication not found or error updating publication: ${error}`);
@@ -60,28 +63,26 @@ export class publicationRepositoryImpl {
           }
     }
 
-    async deletePublication(
-        id: number,
-        data: Partial<Omit<Publication, "id">>
-    ): Promise<Publication | null> {
+    async deletePublication(id: number): Promise<Publication>  {
         try {
             return await prisma.publication.update({
                 where: { id },
-                data,
+                data: {
+                    isDeleted: true,
+                },
               });
         } catch (error) {
             throw new Error(`Publication not found or error updating publication: ${error}`);
           }
     }
 
-    async recoverPublication(
-        id: number,
-        data: Partial<Omit<Publication, "id">>
-    ): Promise<Publication | null> {
+    async restorePublication(id: number): Promise<Publication>  {
         try {
             return await prisma.publication.update({
                 where: { id },
-                data,
+                data: {
+                    isDeleted: false,
+                },
               });
         } catch (error) {
             throw new Error(`Publication not found or error updating publication: ${error}`);

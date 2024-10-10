@@ -11,25 +11,26 @@ export class PublicationService {
         return await this.publicationRepository.getAllPublications();
     }
 
+    async getPublicationById(id: number): Promise<Publication | null> {
+        return await this.publicationRepository.getPublicationById(id);
+    }
+
     async getPublicationsForUser(username: string): Promise<Publication[]> {
         return await this.publicationRepository.getPublicationsForUser(username);
     }
 
     async createPublication(data: 
-        Omit<Publication, "id" | "createdAt" | "updatedAt">
+        Omit<Publication, "id" | "createdAt" | "updatedAt" | "likeCount" | "isDeleted">
     ): Promise<Publication> {
         return await this.publicationRepository.createPublication(data);
     }
 
-    async likePublication(
-        id: number,
-        data: Partial<Omit<Publication, "id">>
-    ): Promise<Publication | null> {
+    async likePublication(id: number): Promise<Publication> {
         const publication = await this.publicationRepository.getPublicationById(id);
         if (!publication) {
             throw new Error("Publication not found");
         }
-        return await this.publicationRepository.likePublication(id, data);
+        return await this.publicationRepository.likePublication(id);
     }
 
     async updatePublication(
@@ -43,25 +44,19 @@ export class PublicationService {
         return await this.publicationRepository.updatePublication(id, data);
     }
 
-    async deletePublication(
-        id: number,
-        data: Partial<Omit<Publication, "id">>
-    ): Promise<Publication | null> {
+    async deletePublication(id: number): Promise<Publication> {
         const publication = await this.publicationRepository.getPublicationById(id);
         if (!publication) {
             throw new Error("Publication not found");
         }
-        return await this.publicationRepository.deletePublication(id, data);
+        return await this.publicationRepository.deletePublication(id);
     }
 
-    async recoverPublication(
-        id: number,
-        data: Partial<Omit<Publication, "id">>
-    ): Promise<Publication | null> {
+    async restorePublication(id: number): Promise<Publication> {
         const publication = await this.publicationRepository.getPublicationById(id);
         if (!publication) {
             throw new Error("Publication not found");
         }
-        return await this.publicationRepository.recoverPublication(id, data);
+        return await this.publicationRepository.restorePublication(id);
     }
 }
