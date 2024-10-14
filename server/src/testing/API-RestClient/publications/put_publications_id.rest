@@ -1,0 +1,7 @@
+PUT http://localhost:3000/api/v1/publications/2
+Content-Type: application/json
+
+{
+    "title": "Updated Title",
+    "content": "Updated Content"
+}

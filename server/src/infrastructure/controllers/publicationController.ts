@@ -104,8 +104,8 @@ export class PublicationController {
         }
 
         try {
-            const updatedLikes = await publicationService.updatePublication(ID, {title, content});
-            return res.status(200).json(updatedLikes)
+            const updatedPublication = await publicationService.updatePublication(ID, {title, content});
+            return res.status(200).json(updatedPublication)
         } catch (error: any) {
             return res.status(500).json({ error: error.message });
         }
