@@ -5,7 +5,7 @@ const router = Router();
 const publicationController = new PublicationController();
 
 router.get("/publications", publicationController.getAllPublications);
-router.get("/publications/:username", publicationController.getPublicationsForUser);
+router.get("/publications/user/:username", publicationController.getPublicationsForUser);
 router.get("/publications/:id", publicationController.getPublicationById);
 router.post("/publications", publicationController.createPublication);
 router.put("publications/:id", publicationController.updatePublication);
