@@ -6,3 +6,5 @@ Content-Type: application/json
     "password": "test2",
     "name": "testuser"
 }
+
+### username has to be unique

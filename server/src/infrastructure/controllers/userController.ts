@@ -44,11 +44,20 @@ export class UserController {
           }
 
         try {
-          const user = await userService.getUserLogin(username, password);
+          const user = await userService.getUserLogin(username);
           if (!user) {
             return res.status(404).json({ message: "User not found" });
           }
-          return res.status(200).json(user);
+
+          try {
+            if(await bcrypt.compare(password, user.password)) {
+              return res.status(200).send("Success");
+            } else {
+              return res.send("Not Allowed")
+            }
+          } catch {
+            return res.status(500).send();
+          }
         } catch (error: any) {
           return res.status(500).json({ error: error.message });
         }

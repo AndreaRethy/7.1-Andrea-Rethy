@@ -23,17 +23,29 @@ export class UserService {
         }
       }
 
-    async getUserLogin(username: string, password: string): Promise<User | null> {
-        try {
-            const user = await this.userRepository.getUserLogin(username, password);
-            if (!user) {
-              return null;
-            }
-            return user;
-          } catch (error: any) {
-            throw new Error(`Error retrieving user: ${error.message}`);
+    // async getUserLogin(username: string, password: string): Promise<User | null> {
+    //     try {
+    //         const user = await this.userRepository.getUserLogin(username, password);
+    //         if (!user) {
+    //           return null;
+    //         }
+    //         return user;
+    //       } catch (error: any) {
+    //         throw new Error(`Error retrieving user: ${error.message}`);
+    //       }
+    // }
+
+    async getUserLogin(username: string): Promise<User | null> {
+      try {
+          const user = await this.userRepository.getUserLogin(username);
+          if (!user) {
+            return null;
           }
-    }
+          return user;
+        } catch (error: any) {
+          throw new Error(`Error retrieving user: ${error.message}`);
+        }
+  }
 
     async createUser(
         data: Omit<User, "id" | "createdAt" | "role" | "isBanned">
