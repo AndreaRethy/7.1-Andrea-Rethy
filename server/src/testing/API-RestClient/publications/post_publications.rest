@@ -1,0 +1,8 @@
+POST http://localhost:3000/api/v1/publications
+Content-Type: application/json
+
+{
+    "title": "Test Title",
+    "content": "Test Content",
+    "authorname": "test1"
+}

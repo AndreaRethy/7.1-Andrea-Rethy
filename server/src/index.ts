@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 import userRoutes from './routes/users.routes.js'
+import publicationRoutes from './routes/publications.routes.js'
 
 dotenv.config();
 const app = express();
@@ -21,6 +22,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 app.use('/api/v1', userRoutes);
+app.use('/api/v1', publicationRoutes);
 /*
 async function main() {
     const user = await prisma.user.create({
