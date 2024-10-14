@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/userService.js";
+import bcrypt from "bcrypt"
 
 const userService = new UserService();
 
@@ -58,14 +59,21 @@ export class UserController {
         if (!username || !password || !name) {
           return res.status(400).json({ message: "Missing required field(s)" });
         }
-        
+
         try {
-          const newUser = await userService.createUser({
-            username, password, name,
-          });
-          return res.status(201).json(newUser);
-        } catch (error: any) {
-          return res.status(500).json({ error: error.message });
+          const salt = await bcrypt.genSalt();
+          const hashedPassword = await bcrypt.hash(password, salt)
+
+          try {
+            const newUser = await userService.createUser({
+              username, password: hashedPassword, name,
+            });
+            return res.status(201).json(newUser);
+          } catch (error: any) {
+            return res.status(500).json({ error: error.message });
+          }
+        } catch {
+          return res.status(500).send();
         }
       }
 
