@@ -6,9 +6,16 @@ import bcrypt from "bcrypt"
 const userService = new UserService();
 
 export class UserController {
-    async getAllUsers(_req: Request, res: Response) {
+    async getAllUsers(req: Request, res: Response) {
+      const { adminId } = req.params;
+      const ID = parseInt(adminId, 10);
+
+      if (isNaN(ID)) {
+        return res.status(400).json({ message: "Invalid id" });
+      }
+      
         try {
-            const users = await userService.getAllUsers();
+            const users = await userService.getAllUsers(ID);
             if (users.length === 0) {
                 return res.status(404).json({ message: "No users found" });
             }
@@ -121,14 +128,21 @@ export class UserController {
       }
 
       async updateUserByAdmin(req: Request, res: Response) {
-        const { id } = req.params;
+        const { adminId, id } = req.params;
         const ID = parseInt(id);
+        const adminID =parseInt(adminId);
+
+        if (isNaN(ID) || isNaN(adminID)) {
+          return res.status(400).json({ message: "Invalid id" });
+        }
+
         const { role, isBanned } = req.body;
+
         if (role === undefined || isBanned === undefined) {
           return res.status(400).json({ message: "Error updating: missing field(s)" });
         }
         try {
-          const updatedUser = await userService.updateUser(ID, {
+          const updatedUser = await userService.updateUserByAdmin(adminID, ID, {
             role, isBanned
           });
           if (!updatedUser) {

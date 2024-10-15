@@ -12,12 +12,6 @@ export class UserRepositoryImpl {
         });
     }
 
-    // async getUserLogin(username: string, password: string): Promise<User | null> {
-    //     return await prisma.user.findUnique({
-    //         where: { username, password },
-    //       });
-    // }
-
     async getUserLogin(username: string): Promise<User | null> {
       return await prisma.user.findUnique({
           where: { username },

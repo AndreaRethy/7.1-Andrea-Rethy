@@ -1,2 +1,5 @@
-GET http://localhost:3000/api/v1/users
+GET http://localhost:3000/api/v1/users/admin/1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzI4OTg4NzUwLCJleHAiOjE3Mjg5OTIzNTB9.gau1mgQ-w_ndgDuBuRRgh2UKdrY87Z5zHxjarQoZJcU
+
+### only ADMIN

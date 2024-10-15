@@ -7,8 +7,17 @@ export class UserService {
         this.userRepository = new UserRepositoryImpl();
     }
 
-    async getAllUsers(): Promise<User[]> {
+    async getAllUsers(adminId: number): Promise<User[]> {
+      try {
+        const admin = await this.userRepository.getUserById(adminId);
+        if (!admin || admin.role != 'ADMIN') {
+          return [];
+        }
         return await this.userRepository.getAllUsers();
+      } catch (error: any) {
+        throw new Error(`Error retrieving users: ${error.message}`);
+      }
+        
     }
 
     async getUserById(id: number): Promise<User | null> {
@@ -22,18 +31,6 @@ export class UserService {
           throw new Error(`Error retrieving user: ${error.message}`);
         }
       }
-
-    // async getUserLogin(username: string, password: string): Promise<User | null> {
-    //     try {
-    //         const user = await this.userRepository.getUserLogin(username, password);
-    //         if (!user) {
-    //           return null;
-    //         }
-    //         return user;
-    //       } catch (error: any) {
-    //         throw new Error(`Error retrieving user: ${error.message}`);
-    //       }
-    // }
 
     async getUserLogin(username: string): Promise<User | null> {
       try {
@@ -65,14 +62,23 @@ export class UserService {
     }
 
     async updateUserByAdmin(
+        adminId: number,
         id: number,
         data: Partial<Omit<User, "id">>
       ): Promise<User | null> {
-        const user = await this.userRepository.getUserById(id);
-        if (!user) {
-        throw new Error("User not found");
+        try {
+          const admin = await this.userRepository.getUserById(adminId);
+          if (!admin || admin.role != 'ADMIN') {
+          return null;
+          }
+          const user = await this.userRepository.getUserById(id);
+          if (!user) {
+          throw new Error("User not found");
+          }
+          return await this.userRepository.updateUser(id, data);
+        } catch (error: any) {
+          throw new Error(`Error updating user: ${error.message}`);
         }
-        return await this.userRepository.updateUser(id, data);
     }
 }
 
