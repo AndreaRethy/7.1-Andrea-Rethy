@@ -2,15 +2,12 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 const authMiddlewareJWT = (req: Request, res: Response, next: NextFunction) => {
-  console.log("Auth Middleware Invoked");
 
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(" ")[1];
-  console.log("Token in Authorization header:", token);
 
   if (!token) {
-    console.log("Token missing in headers");
-    return res.status(401).json({ error: "Token not provided" });
+    return res.sendStatus(401);
   }
 
   // Verify the token
@@ -21,7 +18,6 @@ const authMiddlewareJWT = (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const decoded = jwt.verify(token, secret) as jwt.JwtPayload;
-    console.log("Decoded token:", decoded);
     (req as any).user = decoded;
     return next();
   } catch (err) {
