@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import jwt from "jsonwebtoken";
 import { UserService } from "../services/userService.js";
 import bcrypt from "bcrypt"
 
@@ -51,7 +52,17 @@ export class UserController {
 
           try {
             if(await bcrypt.compare(password, user.password)) {
-              return res.status(200).send("Success");
+              const token = jwt.sign(
+                { username: user.username },
+                process.env.ACCESS_TOKEN_SECRET as string,
+                { expiresIn: "1h" }
+              );
+              return res.status(200).json({
+                accessToken: token,
+                username: username,
+                id: user.id,
+                role: user.role
+              });
             } else {
               return res.send("Not Allowed")
             }

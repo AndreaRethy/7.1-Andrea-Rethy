@@ -7,3 +7,13 @@ start db server
 npm run dev on backend
 
 for api testing use Rest Client expension
+
+.env variables needed:
+
+DATABASE_URL=
+
+ACCESS_TOKEN_SECRET=
+
+REFRESH_TOKEN_SECRET=
+
+PORT=
