@@ -1,9 +1,11 @@
 POST http://localhost:3000/api/v1/publications
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QzIiwiaWF0IjoxNzI4OTgyNTQyLCJleHAiOjE3Mjg5ODYxNDJ9.0Q5V6Ks9he5YO0bLtssry993Oi4cG1URelQmC6RufW4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3Q0IiwiaWF0IjoxNzI4OTg0MzUzLCJleHAiOjE3Mjg5ODc5NTN9.VIFU1rv4pgTt6rc77rYdurmDFHCd0rfWhhy_1IqEEGg
 
 {
-    "title": "Test Title",
-    "content": "Test Content",
-    "authorname": "test1"
+    "title": "Test Title2",
+    "content": "Test Content2",
+    "authorname": "test4"
 }
+
+### both title and content has to be unique
