@@ -7,17 +7,8 @@ export class UserService {
         this.userRepository = new UserRepositoryImpl();
     }
 
-    async getAllUsers(adminId: number): Promise<User[]> {
-      try {
-        const admin = await this.userRepository.getUserById(adminId);
-        if (!admin || admin.role != 'ADMIN') {
-          return [];
-        }
-        return await this.userRepository.getAllUsers();
-      } catch (error: any) {
-        throw new Error(`Error retrieving users: ${error.message}`);
-      }
-        
+    async getAllUsers(): Promise<User[]> {
+      return await this.userRepository.getAllUsers();
     }
 
     async getUserById(id: number): Promise<User | null> {

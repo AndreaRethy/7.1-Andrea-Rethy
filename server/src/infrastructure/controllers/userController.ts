@@ -6,16 +6,9 @@ import bcrypt from "bcrypt"
 const userService = new UserService();
 
 export class UserController {
-    async getAllUsers(req: Request, res: Response) {
-      const { adminId } = req.params;
-      const ID = parseInt(adminId, 10);
-
-      if (isNaN(ID)) {
-        return res.status(400).json({ message: "Invalid id" });
-      }
-      
+    async getAllUsers(_req: Request, res: Response) {
         try {
-            const users = await userService.getAllUsers(ID);
+            const users = await userService.getAllUsers();
             if (users.length === 0) {
                 return res.status(404).json({ message: "No users found" });
             }
@@ -60,7 +53,7 @@ export class UserController {
           try {
             if(await bcrypt.compare(password, user.password)) {
               const token = jwt.sign(
-                { username: user.username },
+                { user: user },
                 process.env.ACCESS_TOKEN_SECRET as string,
                 { expiresIn: "1h" }
               );
