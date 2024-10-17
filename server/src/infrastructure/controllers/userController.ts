@@ -121,11 +121,11 @@ export class UserController {
       }
 
       async updateUserByAdmin(req: Request, res: Response) {
-        const { adminId, id } = req.params;
+        const { id } = req.params;
         const ID = parseInt(id);
-        const adminID =parseInt(adminId);
+  
 
-        if (isNaN(ID) || isNaN(adminID)) {
+        if (isNaN(ID)) {
           return res.status(400).json({ message: "Invalid id" });
         }
 
@@ -135,7 +135,7 @@ export class UserController {
           return res.status(400).json({ message: "Error updating: missing field(s)" });
         }
         try {
-          const updatedUser = await userService.updateUserByAdmin(adminID, ID, {
+          const updatedUser = await userService.updateUserByAdmin(ID, {
             role, isBanned
           });
           if (!updatedUser) {

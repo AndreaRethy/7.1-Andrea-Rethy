@@ -18,7 +18,6 @@ const adminAuth = (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const decoded = jwt.verify(token, secret) as jwt.JwtPayload;
-    console.log(decoded);
     if (decoded.user.role != 'ADMIN') {
         return res.sendStatus(403);
     }

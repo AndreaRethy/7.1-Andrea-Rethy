@@ -53,15 +53,10 @@ export class UserService {
     }
 
     async updateUserByAdmin(
-        adminId: number,
         id: number,
         data: Partial<Omit<User, "id">>
       ): Promise<User | null> {
         try {
-          const admin = await this.userRepository.getUserById(adminId);
-          if (!admin || admin.role != 'ADMIN') {
-          return null;
-          }
           const user = await this.userRepository.getUserById(id);
           if (!user) {
           throw new Error("User not found");
