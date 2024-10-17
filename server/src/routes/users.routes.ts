@@ -12,6 +12,8 @@ const userController = new UserController();
  * /api/v1/users:
  *   get:
  *     summary: Retrieve a list of users
+ *     tags:
+ *       - Users
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -24,14 +26,42 @@ router.get("/users", adminAuth, userController.getAllUsers);
 
 /**
  * @swagger
- * /api/v1/users:
+ * /api/v1/users/{id}:
  *   patch:
  *     summary: Update user role and/or ban status
+ *     tags:
+ *       - Users
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 example: 'admin'
+ *               isBanned:
+ *                 type: boolean
+ *                 example: false
  *     responses:
  *       200:
- *         description: A list of users.
+ *         description: User updated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Bad Request
  *       401:
  *         description: Unauthorized
  */
@@ -39,14 +69,23 @@ router.patch("/users/:id", adminAuth, userController.updateUserByAdmin);
 
 /**
  * @swagger
- * /api/v1/users:
+ * /api/v1/users/{id}:
  *   get:
  *     summary: Retrieve a specific user
+ *     tags:
+ *       - Users
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User ID
  *     responses:
  *       200:
- *         description: A list of users.
+ *         description: User details retrieved.
  *       401:
  *         description: Unauthorized
  */
@@ -54,14 +93,29 @@ router.get("/users/:id", authMiddlewareJWT, userController.getUserById);
 
 /**
  * @swagger
- * /api/v1/users:
+ * /api/v1/users/{id}:
  *   put:
  *     summary: Update a specific user
+ *     tags:
+ *       - Users
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UserUpdate'
  *     responses:
  *       200:
- *         description: A list of users.
+ *         description: User updated successfully.
  *       401:
  *         description: Unauthorized
  */

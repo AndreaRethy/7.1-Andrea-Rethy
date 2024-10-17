@@ -16,6 +16,8 @@ const publicationController = new PublicationController();
  *     responses:
  *       200:
  *         description: List of publications
+ *       401:
+ *         description: Unauthorized
  */
 router.get("/publications", authMiddlewareJWT, publicationController.getAllPublications);
 
@@ -29,6 +31,8 @@ router.get("/publications", authMiddlewareJWT, publicationController.getAllPubli
  *     responses:
  *       200:
  *         description: List of publications
+ *       401:
+ *         description: Unauthorized
  */
 router.get("/publications/user/:username", authMiddlewareJWT, publicationController.getPublicationsForUser);
 
@@ -42,6 +46,8 @@ router.get("/publications/user/:username", authMiddlewareJWT, publicationControl
  *     responses:
  *       200:
  *         description: A specific publication
+ *       401:
+ *         description: Unauthorized
  */
 router.get("/publications/:id", authMiddlewareJWT, publicationController.getPublicationById);
 
@@ -55,6 +61,8 @@ router.get("/publications/:id", authMiddlewareJWT, publicationController.getPubl
  *     responses:
  *       200:
  *         description: Publication posted
+ *       401:
+ *         description: Unauthorized
  */
 router.post("/publications", authMiddlewareJWT, publicationController.createPublication);
 
@@ -68,6 +76,8 @@ router.post("/publications", authMiddlewareJWT, publicationController.createPubl
  *     responses:
  *       200:
  *         description: Publication updated
+ *       401:
+ *         description: Unauthorized
  */
 router.put("/publications/:id", authMiddlewareJWT, publicationController.updatePublication);
 
@@ -81,6 +91,8 @@ router.put("/publications/:id", authMiddlewareJWT, publicationController.updateP
  *     responses:
  *       200:
  *         description: Publication liked
+ *       401:
+ *         description: Unauthorized
  */
 router.patch("/publications/:id/like", authMiddlewareJWT, publicationController.likePublication);
 
@@ -94,6 +106,8 @@ router.patch("/publications/:id/like", authMiddlewareJWT, publicationController.
  *     responses:
  *       200:
  *         description: Publication marked deleted
+ *       401:
+ *         description: Unauthorized
  */
 router.patch("/publications/:id/delete", authMiddlewareJWT, publicationController.deletePublication);
 
@@ -107,6 +121,8 @@ router.patch("/publications/:id/delete", authMiddlewareJWT, publicationControlle
  *     responses:
  *       200:
  *         description: Publication marked not deleted
+ *       401:
+ *         description: Unauthorized
  */
 router.patch("/publications/:id/restore", authMiddlewareJWT, publicationController.restorePublication);
 
