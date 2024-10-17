@@ -22,7 +22,7 @@ const options = {
             }
         ]
     },
-    apis: ['login.routes.js', 'users.routes.js', 'publications.routes.js', 'admin.routes.js', '../db.js'] //add db?
+    apis: ['login.routes.js', 'users.routes.js', 'publications.routes.js', 'admin.routes.js', '../db.js']
 };
 
 // Docs in JSON format
