@@ -7,122 +7,254 @@ const router = Router();
 const publicationController = new PublicationController();
 
 /**
- * @swagger
+ * @openapi
  * /api/v1/publications:
  *   get:
- *     summary: Get a list of publications
+ *     summary: Retrieve a list of all publications
+ *     tags:
+ *       - Publications
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: List of publications
- *       401:
- *         description: Unauthorized
+ *         description: A list of publications.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Publication'
+ *       404:
+ *         description: No publications found.
+ *       500:
+ *         description: Internal server error.
  */
 router.get("/publications", authMiddlewareJWT, publicationController.getAllPublications);
 
 /**
- * @swagger
- * /api/v1/publications:
+ * @openapi
+ * /api/v1/publications/user/{username}:
  *   get:
- *     summary: Get a list of publications for a specific user
+ *     summary: Retrieve publications for a specific user
+ *     tags:
+ *       - Publications
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: username
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Username of the author
  *     responses:
  *       200:
- *         description: List of publications
- *       401:
- *         description: Unauthorized
+ *         description: A list of publications for the user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Publication'
+ *       400:
+ *         description: Missing required field.
+ *       404:
+ *         description: No publications found for the user.
+ *       500:
+ *         description: Internal server error.
  */
 router.get("/publications/user/:username", authMiddlewareJWT, publicationController.getPublicationsForUser);
 
 /**
- * @swagger
- * /api/v1/publications:
+ * @openapi
+ * /api/v1/publications/{id}:
  *   get:
- *     summary: Get a specific publication
+ *     summary: Retrieve a specific publication by ID
+ *     tags:
+ *       - Publications
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Publication ID
  *     responses:
  *       200:
- *         description: A specific publication
- *       401:
- *         description: Unauthorized
+ *         description: Publication details retrieved.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Publication'
+ *       400:
+ *         description: Invalid publication ID.
+ *       404:
+ *         description: Publication not found.
+ *       500:
+ *         description: Internal server error.
  */
 router.get("/publications/:id", authMiddlewareJWT, publicationController.getPublicationById);
 
 /**
- * @swagger
+ * @openapi
  * /api/v1/publications:
  *   post:
- *     summary: Post a publication
+ *     summary: Create a new publication
+ *     tags:
+ *       - Publications
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *       description: Publication object that needs to be added
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/PublicationCreate'
  *     responses:
- *       200:
- *         description: Publication posted
- *       401:
- *         description: Unauthorized
+ *       201:
+ *         description: Publication created successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Publication'
+ *       400:
+ *         description: Missing required fields.
+ *       500:
+ *         description: Internal server error.
  */
 router.post("/publications", authMiddlewareJWT, publicationController.createPublication);
 
 /**
- * @swagger
- * /api/v1/publications:
+ * @openapi
+ * /api/v1/publications/{id}:
  *   put:
  *     summary: Update a specific publication
+ *     tags:
+ *       - Publications
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Publication ID
+ *     requestBody:
+ *       description: Publication object that needs to be updated
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/PublicationUpdate'
  *     responses:
  *       200:
- *         description: Publication updated
- *       401:
- *         description: Unauthorized
+ *         description: Publication updated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Publication'
+ *       400:
+ *         description: Missing values or invalid publication ID.
+ *       404:
+ *         description: Publication not found.
+ *       500:
+ *         description: Internal server error.
  */
 router.put("/publications/:id", authMiddlewareJWT, publicationController.updatePublication);
 
 /**
- * @swagger
- * /api/v1/publications:
+ * @openapi
+ * /api/v1/publications/{id}/like:
  *   patch:
- *     summary: Like a specific publication
+ *     summary: Like a publication
+ *     tags:
+ *       - Publications
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Publication ID
  *     responses:
  *       200:
- *         description: Publication liked
- *       401:
- *         description: Unauthorized
+ *         description: Publication liked successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/LikeResponse'
+ *       400:
+ *         description: Invalid publication ID.
+ *       404:
+ *         description: Publication not found.
+ *       500:
+ *         description: Internal server error.
  */
 router.patch("/publications/:id/like", authMiddlewareJWT, publicationController.likePublication);
 
 /**
- * @swagger
- * /api/v1/publications:
+ * @openapi
+ * /api/v1/publications/{id}/delete:
  *   patch:
- *     summary: Soft delete a specific publication
+ *     summary: Delete a specific publication
+ *     tags:
+ *       - Publications
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Publication ID
  *     responses:
  *       200:
- *         description: Publication marked deleted
- *       401:
- *         description: Unauthorized
+ *         description: Publication deleted successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Publication'
+ *       400:
+ *         description: Invalid publication ID.
+ *       500:
+ *         description: Internal server error.
  */
 router.patch("/publications/:id/delete", authMiddlewareJWT, publicationController.deletePublication);
 
 /**
- * @swagger
- * /api/v1/publications:
- *   patch:
+ * @openapi
+ * /api/v1/publications/{id}/restore:
+ *   post:
  *     summary: Restore a deleted publication
+ *     tags:
+ *       - Publications
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Publication ID
  *     responses:
  *       200:
- *         description: Publication marked not deleted
- *       401:
- *         description: Unauthorized
+ *         description: Publication restored successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Publication'
+ *       400:
+ *         description: Invalid publication ID.
+ *       500:
+ *         description: Internal server error.
  */
 router.patch("/publications/:id/restore", authMiddlewareJWT, publicationController.restorePublication);
 

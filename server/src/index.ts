@@ -27,9 +27,8 @@ app.use(express.json());
 app.use('/api/v1', loginRoutes);
 app.use('/api/v1', userRoutes);
 app.use('/api/v1', publicationRoutes);
-//app.use('/api/v1', adminRoutes);
 
 app.listen(Number(PORT), "0.0.0.0", () => {
     console.log(`Server listening on localhost:${PORT}`);
     swaggerDocs(app, PORT)
-  });
+});

@@ -25,7 +25,7 @@ const userController = new UserController();
 router.get("/users", adminAuth, userController.getAllUsers);
 
 /**
- * @swagger
+ * @openapi
  * /api/v1/users/{id}:
  *   patch:
  *     summary: Update user role and/or ban status
@@ -49,7 +49,7 @@ router.get("/users", adminAuth, userController.getAllUsers);
  *             properties:
  *               role:
  *                 type: string
- *                 example: 'admin'
+ *                 example: 'USER'
  *               isBanned:
  *                 type: boolean
  *                 example: false
@@ -68,7 +68,7 @@ router.get("/users", adminAuth, userController.getAllUsers);
 router.patch("/users/:id", adminAuth, userController.updateUserByAdmin);
 
 /**
- * @swagger
+ * @openapi
  * /api/v1/users/{id}:
  *   get:
  *     summary: Retrieve a specific user
@@ -92,7 +92,7 @@ router.patch("/users/:id", adminAuth, userController.updateUserByAdmin);
 router.get("/users/:id", authMiddlewareJWT, userController.getUserById);
 
 /**
- * @swagger
+ * @openapi
  * /api/v1/users/{id}:
  *   put:
  *     summary: Update a specific user
