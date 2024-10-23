@@ -262,5 +262,51 @@ describe("UserController", () => {
             expect(res.status).toBeCalledWith(404);
             expect(res.json).toBeCalledWith({ message: "User not found" });
         });
-    })
+    });
+
+    describe("postUserLogin", () => {
+        it("should return 200 if a user is found", async () => {
+            const user = await prisma.user.create({
+                data: {
+                    username: "juan",
+                    password: "Test2",
+                    name: "Juan",
+                },
+            });
+
+            const req = { 
+                body: { 
+                    username: user.username, 
+                    password: user.password,
+                },
+            } as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+            await userController.postUserLogin(req, res);
+            expect(res.status).toBeCalledWith(200);
+            expect(res.json).toBeCalledWith(
+                expect.objectContaining({
+                    name: "Juan",
+                }),
+            );
+        });
+
+        it("should return 404 if user is not found", async () => {
+            const req = {
+                body: { 
+                    username: "random", 
+                    password: "random",
+                },
+            } as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+            await userController.postUserLogin(req, res);
+            expect(res.status).toBeCalledWith(404);
+            expect(res.json).toBeCalledWith({ message: "User not found" });
+        });
+    });
 });

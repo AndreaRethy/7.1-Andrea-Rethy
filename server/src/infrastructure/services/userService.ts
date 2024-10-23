@@ -12,28 +12,20 @@ export class UserService {
     }
 
     async getUserById(id: number): Promise<User | null> {
-        try {
-          const user = await this.userRepository.getUserById(id);
-          if (!user) {
-            return null;
-          }
-          return user;
-        } catch (error: any) {
-          throw new Error(`Error retrieving user: ${error.message}`);
-        }
+      const user = await this.userRepository.getUserById(id);
+      if (!user) {
+        return null;
       }
+      return user;
+    }
 
     async postUserLogin(username: string): Promise<User | null> {
-      try {
-          const user = await this.userRepository.postUserLogin(username);
-          if (!user) {
-            return null;
-          }
-          return user;
-        } catch (error: any) {
-          throw new Error(`Error retrieving user: ${error.message}`);
-        }
-  }
+      const user = await this.userRepository.postUserLogin(username);
+      if (!user) {
+        return null;
+      }
+      return user;
+    }
 
     async createUser(
         data: Omit<User, "id" | "createdAt" | "role" | "isBanned">
@@ -47,10 +39,10 @@ export class UserService {
       ): Promise<User | null> {
         const user = await this.userRepository.getUserById(id);
         if (!user) {
-        throw new Error("User not found");
+          return null;
         }
         return await this.userRepository.updateUser(id, data);
-    }
+      }
 
     async updateUserByAdmin(
         id: number,
@@ -58,9 +50,9 @@ export class UserService {
       ): Promise<User | null> {
           const user = await this.userRepository.getUserById(id);
           if (!user) {
-          throw new Error("User not found");
+            return null;
           }
           return await this.userRepository.updateUser(id, data);
-    }
+        }
 }
 
