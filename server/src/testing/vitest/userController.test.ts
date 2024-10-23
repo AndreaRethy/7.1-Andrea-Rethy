@@ -87,7 +87,7 @@ describe("UserController", () => {
             );
         });
 
-        it("should return 404 if player is not found", async () => {
+        it("should return 404 if user is not found", async () => {
             const req = {
                 params: { id: 0 },
                 body: {
@@ -123,6 +123,75 @@ describe("UserController", () => {
                 json: vi.fn(),
             } as unknown as Response;
             await userController.updateUser(req, res);
+            expect(res.status).toBeCalledWith(400);
+            expect(res.json).toBeCalledWith({ message: "Error updating: missing field(s)" });
+        });
+    });
+
+    describe("updateUserByAdmin", () => {
+        it("should update an existing user to ADMIN role", async () => {
+            const user = await prisma.user.create({
+                data: {
+                    username: "juan",
+                    password: "Test2",
+                    name: "Juan",
+                }
+            });
+            const req = {
+                params: { id: user.id },
+                body: {
+                    role: "ADMIN",
+                    isBanned: false,
+                },
+            } as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+            await userController.updateUserByAdmin(req, res);
+            expect(res.status).toBeCalledWith(200);
+            expect(res.json).toBeCalledWith(
+                expect.objectContaining({
+                    role: "ADMIN",
+                })
+            );
+        });
+
+        it("should return 404 if user is not found", async () => {
+            const req = {
+                params: { id: 0 },
+                body: {
+                    role: "ADMIN",
+                    isBanned: false,
+                },
+            } as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+            await userController.updateUserByAdmin(req, res);
+            expect(res.status).toBeCalledWith(404);
+            expect(res.json).toBeCalledWith({ message: "User not found" });
+        });
+
+        it("should return 400 if the request body is invalid", async () => {
+            const user = await prisma.user.create({
+                data: {
+                    username: "juan",
+                    password: "Test2",
+                    name: "Juan",
+                },
+            });
+
+            const req = {
+                params: { id: user.id },
+                body: {},
+            } as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+            await userController.updateUserByAdmin(req, res);
             expect(res.status).toBeCalledWith(400);
             expect(res.json).toBeCalledWith({ message: "Error updating: missing field(s)" });
         });

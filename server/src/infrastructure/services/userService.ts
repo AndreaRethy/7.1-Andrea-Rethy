@@ -56,15 +56,11 @@ export class UserService {
         id: number,
         data: Partial<Omit<User, "id">>
       ): Promise<User | null> {
-        try {
           const user = await this.userRepository.getUserById(id);
           if (!user) {
           throw new Error("User not found");
           }
           return await this.userRepository.updateUser(id, data);
-        } catch (error: any) {
-          throw new Error(`Error updating user: ${error.message}`);
-        }
     }
 }
 
