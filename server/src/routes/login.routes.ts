@@ -32,7 +32,7 @@ const userController = new UserController();
  *       500:
  *         description: Internal Server Error.
  */
-router.post("/login", userController.getUserLogin);
+router.post("/login", userController.postUserLogin);
 
 /**
  * @openapi

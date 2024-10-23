@@ -12,7 +12,7 @@ export class UserRepositoryImpl {
         });
     }
 
-    async getUserLogin(username: string): Promise<User | null> {
+    async postUserLogin(username: string): Promise<User | null> {
       return await prisma.user.findUnique({
           where: { username },
         });

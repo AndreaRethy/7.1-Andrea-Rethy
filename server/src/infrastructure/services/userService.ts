@@ -23,9 +23,9 @@ export class UserService {
         }
       }
 
-    async getUserLogin(username: string): Promise<User | null> {
+    async postUserLogin(username: string): Promise<User | null> {
       try {
-          const user = await this.userRepository.getUserLogin(username);
+          const user = await this.userRepository.postUserLogin(username);
           if (!user) {
             return null;
           }

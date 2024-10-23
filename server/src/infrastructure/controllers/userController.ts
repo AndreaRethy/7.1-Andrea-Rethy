@@ -37,7 +37,7 @@ export class UserController {
         }
       }
 
-      async getUserLogin(req: Request, res: Response) {
+      async postUserLogin(req: Request, res: Response) {
         const { username, password } = req.body;
     
         if (!username || !password) {
@@ -45,7 +45,7 @@ export class UserController {
           }
 
         try {
-          const user = await userService.getUserLogin(username);
+          const user = await userService.postUserLogin(username);
           if (!user) {
             return res.status(404).json({ message: "User not found" });
           }
