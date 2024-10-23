@@ -2,6 +2,7 @@ import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { UserController } from "../../infrastructure/controllers/userController.js";
 import { Request, Response } from "express";
 import { prisma } from "../../db.js";
+import bcrypt from "bcrypt";
 
 const userController = new UserController();
 
@@ -266,10 +267,12 @@ describe("UserController", () => {
 
     describe("postUserLogin", () => {
         it("should return 200 if a user is found", async () => {
+            const salt = await bcrypt.genSalt();
+            const hashedPassword = await bcrypt.hash("Test2", salt)
             const user = await prisma.user.create({
                 data: {
                     username: "juan",
-                    password: "Test2",
+                    password: hashedPassword,
                     name: "Juan",
                 },
             });
@@ -277,7 +280,7 @@ describe("UserController", () => {
             const req = { 
                 body: { 
                     username: user.username, 
-                    password: user.password,
+                    password: "Test2",
                 },
             } as unknown as Request;
             const res = {
@@ -288,7 +291,7 @@ describe("UserController", () => {
             expect(res.status).toBeCalledWith(200);
             expect(res.json).toBeCalledWith(
                 expect.objectContaining({
-                    name: "Juan",
+                    username: "juan",
                 }),
             );
         });
