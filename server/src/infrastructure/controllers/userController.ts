@@ -105,18 +105,25 @@ export class UserController {
           return res.status(400).json({ message: "Error updating: missing field(s)" });
         }
         try {
-          const updatedUser = await userService.updateUser(ID, {
-            username, password, name
-          });
-          if (!updatedUser) {
-            return res.status(404).json({ message: "User not found" });
+          const salt = await bcrypt.genSalt();
+          const hashedPassword = await bcrypt.hash(password, salt)
+
+          try {
+            const updatedUser = await userService.updateUser(ID, {
+              username, password: hashedPassword, name
+            });
+            if (!updatedUser) {
+              return res.status(404).json({ message: "User not found" });
+            }
+            return res.status(200).json(updatedUser);
+          } catch (error: any) {
+            if (error.message === "User not found") {
+              return res.status(404).json({ message: "User not found" });
+            }
+            return res.status(500).json({ error: error.message });
           }
-          return res.status(200).json(updatedUser);
-        } catch (error: any) {
-          if (error.message === "User not found") {
-            return res.status(404).json({ message: "User not found" });
-          }
-          return res.status(500).json({ error: error.message });
+        } catch {
+          return res.status(500).send();
         }
       }
 
