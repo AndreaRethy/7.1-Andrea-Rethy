@@ -38,10 +38,24 @@ describe("UserController", () => {
             expect(res.status).toBeCalledWith(201);
             expect(res.json).toBeCalledWith(
                 expect.objectContaining({
-                    name: "Juan"
+                    username: "juan"
                 })
             );
         });
+
+        it("should return 400 if the request body is invalid", async () => {
+            const req = {
+                body: {},
+            } as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+            await userController.createUser(req, res);
+            expect(res.status).toBeCalledWith(400);
+            expect(res.json).toBeCalledWith({ message: "Missing required field(s)" });
+        });
+
     })
 
 });
