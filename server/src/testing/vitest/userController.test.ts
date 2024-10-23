@@ -196,4 +196,71 @@ describe("UserController", () => {
             expect(res.json).toBeCalledWith({ message: "Error updating: missing field(s)" });
         });
     });
+
+    describe("getAllUsers", () => {
+        it("should return 200 if users are found", async () => {
+            await prisma.user.create({
+                data: {
+                    username: "juan",
+                    password: "Test2",
+                    name: "Juan",
+                },
+            });
+
+            const req = {} as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+            await userController.getAllUsers(req, res);
+            expect(res.status).toBeCalledWith(200);
+            expect(res.json).toBeCalledWith(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        name: "Juan",
+                    }),
+                ])
+            );
+        });
+    });
+
+    describe("getUserById", () => {
+        it("should return 200 if a user is found", async () => {
+            const user = await await prisma.user.create({
+                data: {
+                    username: "juan",
+                    password: "Test2",
+                    name: "Juan",
+                },
+            });
+
+            const req = { 
+                params: { id: user.id } 
+            } as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+            await userController.getUserById(req, res);
+            expect(res.status).toBeCalledWith(200);
+            expect(res.json).toBeCalledWith(
+                expect.objectContaining({
+                    name: "Juan",
+                }),
+            );
+        });
+
+        it("should return 404 if user is not found", async () => {
+            const req = {
+                params: { id: 0 },
+            } as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+            await userController.getUserById(req, res);
+            expect(res.status).toBeCalledWith(404);
+            expect(res.json).toBeCalledWith({ message: "User not found" });
+        });
+    })
 });
