@@ -39,7 +39,7 @@ export class PublicationService {
     ): Promise<Publication | null> {
         const publication = await this.publicationRepository.getPublicationById(id);
         if (!publication) {
-            throw new Error("Publication not found");
+            return null;
         }
         return await this.publicationRepository.updatePublication(id, data);
     }
