@@ -9,19 +9,19 @@ describe("PublicationController", () => {
     beforeEach(async () => {
         await prisma.user.deleteMany({
             where: {
-                username: { in: ["juan"] },
+                username: { in: ["julia"] },
             },
         });
         await prisma.publication.deleteMany({
             where: {
-                title: { in: ["unittest1", "unittest2"] }
+                title: { in: ["unittest1", "unittest2", "unittest3"] }
             }
         });
     });
     afterEach(async () => {
         await prisma.publication.deleteMany({
             where: {
-                title: { in: ["unittest1", "unittest2"] }
+                title: { in: ["unittest1", "unittest2", "unittest3"] }
             }
         });
     });
@@ -31,9 +31,9 @@ describe("PublicationController", () => {
         it("should return 201 and publication", async () => {
             const user = await prisma.user.create({
                 data: {
-                    username: "juan",
+                    username: "julia",
                     password: "Test2",
-                    name: "Juan",
+                    name: "julia",
                 }
             });
 
@@ -77,9 +77,9 @@ describe("PublicationController", () => {
         it("should return 200 and publications if publications are found", async () => {
             const user = await prisma.user.create({
                 data: {
-                    username: "juan",
+                    username: "julia",
                     password: "Test2",
-                    name: "Juan",
+                    name: "julia",
                 }
             });
 
@@ -122,9 +122,9 @@ describe("PublicationController", () => {
         it("should return 404 if no publications are found", async () => {
             const user = await prisma.user.create({
                 data: {
-                    username: "juan",
+                    username: "julia",
                     password: "Test2",
-                    name: "Juan",
+                    name: "julia",
                 }
             });
             
@@ -147,9 +147,9 @@ describe("PublicationController", () => {
         it("should return 200 and publications if publications are found", async () => {
             const user = await prisma.user.create({
                 data: {
-                    username: "juan",
+                    username: "julia",
                     password: "Test2",
-                    name: "Juan",
+                    name: "julia",
                 }
             });
 
@@ -190,12 +190,12 @@ describe("PublicationController", () => {
 
     //get publication by id
     describe("getPublicationById", () => {
-        it("should return 200 and publications if publications are found", async () => {
+        it("should return 200 and publication", async () => {
             const user = await prisma.user.create({
                 data: {
-                    username: "juan",
+                    username: "julia",
                     password: "Test2",
-                    name: "Juan",
+                    name: "julia",
                 }
             });
 
@@ -242,10 +242,164 @@ describe("PublicationController", () => {
     });
 
     //like publication
+    describe("likePublication", () => {
+        it("should return 200 and publication", async () => {
+            const user = await prisma.user.create({
+                data: {
+                    username: "julia",
+                    password: "Test2",
+                    name: "julia",
+                }
+            });
+
+            const publication = await prisma.publication.create({
+                data:
+                    {
+                        title: "unittest1",
+                        content: "unittest1",
+                        likeCount: 0,
+                        authorname: user.username
+                    },
+            });
+            
+            const req = {
+                params: { id: publication.id },
+            } as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+
+            await publicationController.likePublication(req, res);
+            expect(res.status).toBeCalledWith(200);
+            expect(res.json).toBeCalledWith(
+                expect.objectContaining({
+                    title: "unittest1"
+                }),
+            );
+        });
+    });
 
     // update publication
+    describe("updatePublication", () => {
+        it("should return 200 and updated publication", async () => {
+            const user = await prisma.user.create({
+                data: {
+                    username: "julia",
+                    password: "Test2",
+                    name: "julia",
+                }
+            });
+
+            const publication = await prisma.publication.create({
+                data:
+                    {
+                        title: "unittest1",
+                        content: "unittest1",
+                        likeCount: 0,
+                        authorname: user.username
+                    },
+            });
+            
+            const req = {
+                params: { id: publication.id },
+                body: {
+                    title: "unittest3",
+                    content: "unittest3",
+                },
+            } as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+
+            await publicationController.updatePublication(req, res);
+            expect(res.status).toBeCalledWith(200);
+            expect(res.json).toBeCalledWith(
+                expect.objectContaining({
+                    title: "unittest3"
+                }),
+            );
+        });
+    });
 
     // delete publication
+    describe("deletePublication", () => {
+        it("should return 200 and publication", async () => {
+            const user = await prisma.user.create({
+                data: {
+                    username: "julia",
+                    password: "Test2",
+                    name: "julia",
+                }
+            });
+
+            const publication = await prisma.publication.create({
+                data:
+                    {
+                        title: "unittest1",
+                        content: "unittest1",
+                        likeCount: 0,
+                        authorname: user.username
+                    },
+            });
+            
+            const req = {
+                params: { id: publication.id },
+            } as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+
+            await publicationController.deletePublication(req, res);
+            expect(res.status).toBeCalledWith(200);
+            expect(res.json).toBeCalledWith(
+                expect.objectContaining({
+                    title: "unittest1",
+                    isDeleted: true
+                }),
+            );
+        });
+    });
 
     //restore publication
+    describe("restorePublication", () => {
+        it("should return 200 and publication", async () => {
+            const user = await prisma.user.create({
+                data: {
+                    username: "julia",
+                    password: "Test2",
+                    name: "julia",
+                }
+            });
+
+            const publication = await prisma.publication.create({
+                data:
+                    {
+                        title: "unittest1",
+                        content: "unittest1",
+                        likeCount: 0,
+                        authorname: user.username
+                    },
+            });
+            
+            const req = {
+                params: { id: publication.id },
+            } as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+
+            await publicationController.restorePublication(req, res);
+            expect(res.status).toBeCalledWith(200);
+            expect(res.json).toBeCalledWith(
+                expect.objectContaining({
+                    title: "unittest1",
+                    isDeleted: false
+                }),
+            );
+        });
+    });
 });
