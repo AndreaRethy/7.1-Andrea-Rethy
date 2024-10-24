@@ -72,7 +72,7 @@ describe("PublicationController", () => {
         });
     });
 
-    
+    // get publications from specific user
     describe("getPublicationForUser", () => {
         it("should return 200 and publications if publications are found", async () => {
             const user = await prisma.user.create({
@@ -142,9 +142,104 @@ describe("PublicationController", () => {
         });
     });
 
-    // get all publications
+// get all publications
+    describe("getAllPublications", () => {
+        it("should return 200 and publications if publications are found", async () => {
+            const user = await prisma.user.create({
+                data: {
+                    username: "juan",
+                    password: "Test2",
+                    name: "Juan",
+                }
+            });
+
+            await prisma.publication.createMany({
+                data: [
+                    {
+                        title: "unittest1",
+                        content: "unittest1",
+                        likeCount: 0,
+                        authorname: user.username
+                    },
+                    {
+                        title: "unittest2",
+                        content: "unittest2",
+                        likeCount: 0,
+                        authorname: user.username
+                    },
+                ]
+            });
+            
+            const req = {} as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+
+            await publicationController.getAllPublications(req, res);
+            expect(res.status).toBeCalledWith(200);
+            expect(res.json).toBeCalledWith(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        title: "unittest2"
+                    }),
+                ])
+            );
+        });
+    });
 
     //get publication by id
+    describe("getPublicationById", () => {
+        it("should return 200 and publications if publications are found", async () => {
+            const user = await prisma.user.create({
+                data: {
+                    username: "juan",
+                    password: "Test2",
+                    name: "Juan",
+                }
+            });
+
+            const publication = await prisma.publication.create({
+                data:
+                    {
+                        title: "unittest1",
+                        content: "unittest1",
+                        likeCount: 0,
+                        authorname: user.username
+                    },
+            });
+            
+            const req = {
+                params: { id: publication.id },
+            } as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+
+            await publicationController.getPublicationById(req, res);
+            expect(res.status).toBeCalledWith(200);
+            expect(res.json).toBeCalledWith(
+                expect.objectContaining({
+                    title: "unittest1"
+                }),
+            );
+        });
+
+        it("should return 404 if no publications are found", async () => {    
+            const req = {
+                params: { id: 0 },
+            } as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+
+            await publicationController.getPublicationById(req, res);
+            expect(res.status).toBeCalledWith(404);
+            expect(res.json).toBeCalledWith({ message: "Publication not found" });
+        });
+    });
 
     //like publication
 
