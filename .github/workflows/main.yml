@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-  
+
     services:
       mysql:
         image: mysql:8.0
@@ -44,13 +44,34 @@ jobs:
 
       - name: Install dependencies backend
         run: cd server && npm install
+
       - name: Install dependencies frontend
         run: cd client && npm install 
-        
+
       - name: Build backend
         run: cd server && npm run build
+
       - name: Build frontend
         run: cd client && npm run build
 
+      - name: Wait for MySQL to be ready
+        run: |
+          echo "Waiting for MySQL to be ready..."
+          for i in {1..30}; do
+            if mysqladmin ping -h "localhost" -P 3306 --silent; then
+              echo "MySQL is up!"
+              break
+            fi
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
+
+      - name: Run Prisma Migrations
+        run: cd server && npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+
       - name: Run tests
         run: cd server && npm test
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
