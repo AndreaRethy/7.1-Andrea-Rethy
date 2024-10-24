@@ -6,7 +6,6 @@ import { prisma } from "../../db.js";
 const publicationController = new PublicationController();
 
 describe("PublicationController", () => {
-
     beforeEach(async () => {
         await prisma.user.deleteMany({
             where: {
@@ -58,9 +57,22 @@ describe("PublicationController", () => {
                 })
             );    
         });
+
+        it("should return 400 if the request body is invalid", async () => {
+            const req = {
+                body: {},
+            } as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+            await publicationController.createPublication(req, res);
+            expect(res.status).toBeCalledWith(400);
+            expect(res.json).toBeCalledWith({ message: "Missing required field(s)" });
+        });
     });
 
-    /*
+    
     describe("getPublicationForUser", () => {
         it("should return 200 and publications if publications are found", async () => {
             const user = await prisma.user.create({
@@ -70,9 +82,26 @@ describe("PublicationController", () => {
                     name: "Juan",
                 }
             });
+
+            await prisma.publication.createMany({
+                data: [
+                    {
+                        title: "unittest1",
+                        content: "unittest1",
+                        likeCount: 0,
+                        authorname: user.username
+                    },
+                    {
+                        title: "unittest2",
+                        content: "unittest2",
+                        likeCount: 0,
+                        authorname: user.username
+                    },
+                ]
+            });
             
             const req = {
-                params: { username: user?.username },
+                params: { username: user.username },
             } as unknown as Request;
             const res = {
                 status: vi.fn().mockReturnThis(),
@@ -80,17 +109,38 @@ describe("PublicationController", () => {
             } as unknown as Response;
 
             await publicationController.getPublicationsForUser(req, res);
-
-            expect(res.status).toBeCalledWith(
+            expect(res.status).toBeCalledWith(200);
+            expect(res.json).toBeCalledWith(
                 expect.arrayContaining([
                     expect.objectContaining({
-                        authorname: "admin",
+                        title: "unittest2"
                     }),
                 ])
             );
         });
+
+        it("should return 404 if no publications are found", async () => {
+            const user = await prisma.user.create({
+                data: {
+                    username: "juan",
+                    password: "Test2",
+                    name: "Juan",
+                }
+            });
+            
+            const req = {
+                params: { username: user.username },
+            } as unknown as Request;
+            const res = {
+                status: vi.fn().mockReturnThis(),
+                json: vi.fn(),
+            } as unknown as Response;
+
+            await publicationController.getPublicationsForUser(req, res);
+            expect(res.status).toBeCalledWith(404);
+            expect(res.json).toBeCalledWith({ message: "No publications found" });
+        });
     });
-*/
 
     // get all publications
 

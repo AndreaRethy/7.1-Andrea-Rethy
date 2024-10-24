@@ -200,12 +200,19 @@ describe("UserController", () => {
 
     describe("getAllUsers", () => {
         it("should return 200 if users are found", async () => {
-            await prisma.user.create({
-                data: {
-                    username: "juan",
-                    password: "Test2",
-                    name: "Juan",
-                },
+            await prisma.user.createMany({
+                data: [
+                    {
+                        username: "juan",
+                        password: "Test2",
+                        name: "Juan",
+                    },
+                    {
+                        username: "testAdmin",
+                        password: "Test3",
+                        name: "TestAdmin",
+                    },
+                ]
             });
 
             const req = {} as unknown as Request;
