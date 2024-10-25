@@ -27,51 +27,46 @@ jobs:
           --health-retries=5
 
     env:
-      DATABASE_URL: mysql://testuser:testpassword@localhost:3306/testdb
+      DATABASE_URL: mysql://testuser:testpassword@127.0.0.1:3306/testdb
 
     strategy:
       matrix:
         node-version: [20.x]
 
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
+    - name: Set up Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: "npm"
 
-      - name: Install dependencies backend
-        run: cd server && npm install
+    - name: Install dependencies backend
+      run: cd server && npm install
 
-      - name: Install dependencies frontend
-        run: cd client && npm install 
+    - name: Build backend
+      run: cd server && npm run build
 
-      - name: Build backend
-        run: cd server && npm run build
+    - name: Wait for MySQL to be ready
+      run: |
+        for i in {1..30}; do
+          if mysqladmin ping -h "127.0.0.1" -P 3306 --silent; then
+            echo "MySQL is up!"
+            break
+          fi
+          sleep 2
+        done
 
-      - name: Build frontend
-        run: cd client && npm run build
+    - name: Run Prisma Migrations
+      run: cd server && npx prisma migrate deploy --verbose
+      env:
+        DATABASE_URL: ${{ env.DATABASE_URL }}
 
-      - name: Wait for MySQL to be ready
-        run: |
-          echo "Waiting for MySQL to be ready..."
-          for i in {1..30}; do
-            if mysqladmin ping -h "localhost" -P 3306 --silent; then
-              echo "MySQL is up!"
-              break
-            fi
-            echo "Waiting for MySQL..."
-            sleep 2
-          done
+    - name: Test DB Connection
+      run: mysql -h127.0.0.1 -utestuser -ptestpassword -e "SHOW DATABASES;"
 
-      - name: Run Prisma Migrations
-        run: cd server && npx prisma migrate deploy
-        env:
-          DATABASE_URL: ${{ env.DATABASE_URL }}
-
-      - name: Run tests
-        run: cd server && npm test
-        env:
-          DATABASE_URL: ${{ env.DATABASE_URL }}
+    - name: Run tests
+      run: cd server && npm test
+      env:
+        DATABASE_URL: ${{ env.DATABASE_URL }}
