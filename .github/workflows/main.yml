@@ -59,7 +59,7 @@ jobs:
         done
 
     - name: Run Prisma Migrations
-      run: cd server && npx prisma migrate deploy --verbose
+      run: cd server && npx prisma migrate deploy
       env:
         DATABASE_URL: ${{ env.DATABASE_URL }}
 
