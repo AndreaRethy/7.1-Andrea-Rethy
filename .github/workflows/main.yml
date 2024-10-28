@@ -15,7 +15,7 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: testdb
+          MYSQL_DATABASE: blog-app
           # MYSQL_USER: root
           # MYSQL_PASSWORD: root
         ports:
@@ -27,7 +27,7 @@ jobs:
           --health-retries=5
 
     env:
-      DATABASE_URL: mysql://root:root@127.0.0.1:3306/testdb
+      DATABASE_URL: mysql://root:root@127.0.0.1:3306/blog-app
 
     strategy:
       matrix:
