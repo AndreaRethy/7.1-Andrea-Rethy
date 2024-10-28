@@ -48,6 +48,9 @@ jobs:
     - name: Build backend
       run: cd server && npm run build
 
+    - name: Install MySQL Client
+      run: sudo apt-get update && sudo apt-get install -y mysql-client
+
     - name: Wait for MySQL to be ready
       run: |
         for i in {1..30}; do
@@ -64,7 +67,7 @@ jobs:
         DATABASE_URL: ${{ env.DATABASE_URL }}
 
     - name: Test DB Connection
-      run: mysql -h127.0.0.1 -utestuser -ptestpassword -e "SHOW DATABASES;"
+      run: mysql -h127.0.0.1 -uroot -proot -e "SHOW DATABASES;"
 
     - name: Run tests
       run: cd server && npm test
