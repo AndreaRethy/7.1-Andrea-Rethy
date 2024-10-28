@@ -54,7 +54,7 @@ const LoginPage: React.FC = () => {
             <FaUser className='text-slate-900 absolute right-4 top-1/2 -translate-y-2/4'/>
           </div>
           <div className='relative'>
-            <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 opacity-70 appearance-none' type='password' placeholder='Password' required value={password} id='password' onChange={(e) => setPassword(e.target.value)}  />
+            <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 opacity-70 appearance-none' type='password' placeholder='Password' required value={password} id='password' onChange={(e) => setPassword(e.target.value)} />
             <FaLock className='text-slate-900 absolute right-4 top-1/2 -translate-y-2/4'/>
           </div>
           <div className='flex justify-between'>

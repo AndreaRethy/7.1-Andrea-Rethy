@@ -41,7 +41,36 @@ const options = {
               description: 'JWT token for authenticated access.',
             },
             user: {
-              $ref: '#/components/schemas/User', // Assuming you have a User schema
+              $ref: '#/components/schemas/User',
+            },
+          },
+        },
+        RegisterRequest: {
+          type: 'object',
+          required: ['username', 'password', 'name'],
+          properties: {
+            username: {
+              type: 'string',
+              example: 'johndoe',
+              description: 'The username of the user.',
+            },
+            password: {
+              type: 'string',
+              example: 'StrongP@ssw0rd!',
+              description: 'The password of the user.',
+            },
+            name: {
+              type: 'string',
+              example: 'John Doe',
+              description: 'The name of the user.',
+            },
+          },
+        },
+        RegisterResponse: {
+          type: 'object',
+          properties: {
+            user: {
+              $ref: '#/components/schemas/User',
             },
           },
         },
@@ -55,6 +84,10 @@ const options = {
             username: {
               type: 'string',
               example: 'johndoe',
+            },
+            name: {
+              type: 'string',
+              example: 'John Doe',
             },
             role: {
               type: 'string',
