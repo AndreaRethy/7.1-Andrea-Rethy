@@ -66,6 +66,9 @@ jobs:
       env:
         DATABASE_URL: ${{ env.DATABASE_URL }}
 
+    - name: Generate Prisma Client
+      run: cd server && npx prisma generate
+
     - name: Test DB Connection
       run: mysql -h127.0.0.1 -uroot -proot -e "SHOW DATABASES;"
 
