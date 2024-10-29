@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const URL = "/api/v1/publications";
 
-const NewPost = () => {
+const NewPost = ({ onPostSuccess }: { onPostSuccess: () => void }) => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
   const [title, setTitle] = useState<string>("");
@@ -24,8 +24,13 @@ const NewPost = () => {
     }
   }, []);
 
-  const post = () => {
+  const post = (event: React.FormEvent) => {
+      event.preventDefault();
       postPublication(title, content, username);
+      setTitle("");
+      setContent("")
+      setImage("");
+      onPostSuccess();
     }
 
     function postPublication(title: string, content: string, authorname: string) {
@@ -45,18 +50,19 @@ const NewPost = () => {
           ),
         })
         .then((response) => {
-          if (!response.ok) {
-            return response.json().then((errorData) => {
-              if (response.status === 403 && errorData.error === "Invalid token") {
-                navigate("/");
-              } else {
-                throw new Error(errorData.error || 'An error occured');
-              }
-            });
-          }
-          return response.json();
-        })
-          .catch((error) => console.error('Error:', error));
+            if (!response.ok) {
+              return response.json().then((errorData) => {
+                if (response.status === 403) {
+                  if (errorData.error === "Invalid token") {
+                    navigate("/");
+                  }
+                }
+                throw new Error(errorData.error || 'An error occurred');
+              });
+            }
+            return response.json();
+          })
+          .catch((error) => console.error('Error posting publication:', error));
     }
 
     return (

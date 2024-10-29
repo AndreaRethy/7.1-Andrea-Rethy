@@ -13,6 +13,10 @@ import NewPost from '../components/NewPost';
 const MainPage: React.FC = () => {
   const [view, setView] = useState(0);
 
+  const handlePostSuccess = () => {
+    setView(2); // Switch to "My Publications" view on successful post
+  };
+
   return (
     <section className='flex justify-between items-center min-h-full bg-slate-50'>
         <Sidebar>
@@ -24,7 +28,7 @@ const MainPage: React.FC = () => {
         </Sidebar>
         <div className='py-20 px-48 rounded-xl border border-slate-500 backdrop-blur-lg shadow-md shadow-slate-600'>
             {view === 0 && <ListPublications />}
-            {view === 1 && <NewPost />}
+            {view === 1 && <NewPost onPostSuccess={handlePostSuccess} />}
             {view === 2 && <ListMyPublications />}
             {view === 3 && <Users />}
         </div>
