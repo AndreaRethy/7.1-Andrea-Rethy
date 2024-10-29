@@ -2,7 +2,7 @@ import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { UserController } from "../../infrastructure/controllers/userController.js";
 import { Request, Response } from "express";
 import { prisma } from "../../db.js";
-import bcrypt from "bcrypt";
+import bcrypt from 'bcryptjs';
 
 const userController = new UserController();
 
