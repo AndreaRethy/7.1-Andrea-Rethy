@@ -33,6 +33,7 @@ const NewPost = ({ onPostSuccess }: { onPostSuccess: () => void }) => {
       onPostSuccess();
     }
 
+    //TODO: handle image link
     function postPublication(title: string, content: string, authorname: string) {
         fetch(`${URL}`, {
           method: 'POST',

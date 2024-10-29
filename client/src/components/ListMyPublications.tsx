@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const URL = "/api/v1/publications";
+const URL = "/api/v1/publications/user/";
 
 type Publication = {
   id: number,
@@ -15,16 +15,19 @@ type Publication = {
   authorname: string
 }
 
-const ListPublications = () => {
+const ListMyPublications = () => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
   const [publications, setPublications] = useState<Publication[]>([]);
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem('token');
+    const storedUsername = sessionStorage.getItem('username');
 
-    if (storedToken) {
+    if (storedToken && storedUsername) {
       setToken(storedToken);
+      setUsername(storedUsername)
     } else {
       navigate('/');
     }
@@ -37,7 +40,7 @@ const ListPublications = () => {
   }, [token]);
 
 function getPublications() {
-  fetch(`${URL}`, {
+  fetch(`${URL}${username}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`,
@@ -65,7 +68,7 @@ function getPublications() {
 
   return (
     <>
-      <div className='text-slate-800 text-2xl font-bold'>All Publications</div>
+      <div className='text-slate-800 text-2xl font-bold'>My Publications</div>
       <ul className="flex flex-col items-start">
         {
           Array.isArray(publications) && publications.length > 0 ? (
@@ -89,4 +92,4 @@ function getPublications() {
   )
 }
 
-export default ListPublications
+export default ListMyPublications
