@@ -15,7 +15,7 @@ interface SidebarProps {
 }
 export default function Sidebar({ children }: SidebarProps) {
   const [expanded, setExpanded] = useState(true)
-  const playerName = sessionStorage.getItem("username");
+  const username = sessionStorage.getItem("username");
 
   return (
     <aside className="h-screen">
@@ -51,7 +51,7 @@ export default function Sidebar({ children }: SidebarProps) {
           `}
           >
             <div className="leading-4">
-              <h4 className="font-semibold text-gray-50">{playerName}</h4>
+              <h4 className="font-semibold text-gray-50">{username}</h4>
             </div>
             <Link to={"/profile"} className="text-gray-50 hover:bg-gray-800 p-2 rounded-full">
               <GoGear size={20}  />
