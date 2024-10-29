@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { UserService } from "../services/userService.js";
-import bcrypt from "bcrypt"
+import bcrypt from 'bcryptjs';
 
 const userService = new UserService();
 
