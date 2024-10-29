@@ -24,7 +24,7 @@ const LoginPage: React.FC = () => {
         if (data.accessToken) {
           sessionStorage.setItem("userId", data.id.toString());
           sessionStorage.setItem("username", data.username);
-          sessionStorage.setItem("token", data.token);
+          sessionStorage.setItem("token", data.accessToken);
           navigate("/home");
         } else {
           alert("Invalid user! Try again")

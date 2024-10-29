@@ -1,9 +1,9 @@
-import MainPage from '../screens/MainPage';
+import MainPage from '../pages/MainPage';
 import App from '../App';
-import LoginPage from "../screens/LoginPage";
+import LoginPage from "../pages/LoginPage";
 import { createBrowserRouter } from "react-router-dom";
-import RegisterPage from '../screens/RegisterPage';
-import ProfilePage from '../screens/ProfilePage';
+import RegisterPage from '../pages/RegisterPage';
+import SettingsPage from '../pages/SettingsPage';
 
 export const router = createBrowserRouter([
   {
@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <ProfilePage />,
+        element: <SettingsPage />,
         errorElement: <div>THIS PAGE DOES NOT EXIST</div>,
       },
     ],
