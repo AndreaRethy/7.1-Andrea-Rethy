@@ -23,10 +23,10 @@ const MainPage: React.FC = () => {
         <SidebarItem icon={<CiBookmark size={20}/>} text={"Home"} active={view === 0} onClick={() => setView(0)}/>
           <SidebarItem icon={<LuPlusSquare size={20}/>} text={"New Post"} active={view === 1} onClick={() => setView(1)}/>
           <SidebarItem icon={<FaList size={20}/>} text={"My Publications"} active={view === 2} onClick={() => setView(2)}/>
-          {/* TODO: Users should be only visible for admins */}
+          {/* TODO: Users menu should be only visible for admins */}
           <SidebarItem icon={<FaUsers size={20}/>} text={"Users"} active={view === 3} onClick={() => setView(3)}/>
         </Sidebar>
-        <div className='py-20 px-48 rounded-xl border border-slate-500 backdrop-blur-lg shadow-md shadow-slate-600'>
+        <div className='content-view min-h-svh min-w-full'>
             {view === 0 && <ListPublications />}
             {view === 1 && <NewPost onPostSuccess={handlePostSuccess} />}
             {view === 2 && <ListMyPublications />}
