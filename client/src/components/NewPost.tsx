@@ -26,15 +26,14 @@ const NewPost = ({ onPostSuccess }: { onPostSuccess: () => void }) => {
 
   const post = (event: React.FormEvent) => {
       event.preventDefault();
-      postPublication(title, content, username);
+      postPublication(image, title, content, username);
       setTitle("");
       setContent("")
       setImage("");
       onPostSuccess();
     }
 
-    //TODO: handle image link
-    function postPublication(title: string, content: string, authorname: string) {
+    function postPublication(image: string, title: string, content: string, authorname: string) {
         fetch(`${URL}`, {
           method: 'POST',
           headers: {
@@ -44,6 +43,7 @@ const NewPost = ({ onPostSuccess }: { onPostSuccess: () => void }) => {
           credentials: 'include',
           body: JSON.stringify(
             { 
+                "image": image,
                 "title": title,
                 "content": content,
                 "authorname": authorname
@@ -70,7 +70,9 @@ const NewPost = ({ onPostSuccess }: { onPostSuccess: () => void }) => {
         <>
             <form onSubmit={post}>
                 <div className="flex flex-col justify-center space-x-6 my-4">
+                  {/* max 191 characters */}
                     <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 appearance-none' type='url' placeholder='Image URL' required value={image} id='image' onChange={(e) => setImage(e.target.value)} />
+                    {/* max 191 characters */}
                     <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 appearance-none' type='text' placeholder='Title' required value={title} id='title' onChange={(e) => setTitle(e.target.value)} />
                     <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 appearance-none' type='text' placeholder='Your post body...' required value={content} id='title' onChange={(e) => setContent(e.target.value)} />
                 </div>
