@@ -54,7 +54,7 @@ export class PublicationController {
     }
 
     async createPublication(req: Request, res: Response) {
-        const { title, content, authorname } = req.body;
+        const { title, image, content, authorname } = req.body;
 
         if (!title || !content || !authorname) {
             return res.status(400).json({
@@ -65,6 +65,7 @@ export class PublicationController {
         try {
             const newPublication = await publicationService.createPublication({
                 title,
+                image: image || undefined,
                 content,
                 authorname
             });

@@ -34,7 +34,7 @@ model Publication {
   id         Int      @id @default(autoincrement())
   title      String   @unique
   content    String   @unique
-  image      String   @default("no-image.jpg")
+  image      String   @default("https://andrearethy.com/destinations/tinified/no-image.jpg")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   likeCount  Int      @default(0)
