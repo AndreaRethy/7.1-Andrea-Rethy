@@ -34,9 +34,10 @@ model Publication {
   id         Int      @id @default(autoincrement())
   title      String   @unique
   content    String   @unique
+  image      String   @default("no-image.jpg")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  likeCount  Int  @default(0)
+  likeCount  Int      @default(0)
   isDeleted  Boolean  @default(false)
   author     User     @relation("WrittenPosts", fields: [authorname], references: [username])
   authorname String
