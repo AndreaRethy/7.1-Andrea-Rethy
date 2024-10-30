@@ -33,7 +33,7 @@ enum Role {
 model Publication {
   id         Int      @id @default(autoincrement())
   title      String   @unique
-  content    String   @unique
+  content    String   @db.Text
   image      String   @default("https://andrearethy.com/destinations/tinified/no-image.jpg")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
