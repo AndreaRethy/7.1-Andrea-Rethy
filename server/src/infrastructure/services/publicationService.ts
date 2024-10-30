@@ -19,6 +19,10 @@ export class PublicationService {
         return await this.publicationRepository.getPublicationsForUser(username);
     }
 
+    async getTopPublications(): Promise<Publication[]> {
+        return await this.publicationRepository.getTopPublications(4);
+    }
+
     async createPublication(data: 
         Omit<Publication, "id" | "createdAt" | "updatedAt" | "likeCount" | "isDeleted">
     ): Promise<Publication> {

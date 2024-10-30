@@ -53,6 +53,16 @@ export class PublicationController {
         }
     }
 
+    async getTopPublications(_req: Request, res: Response) {
+        try {
+            const topPublications = await publicationService.getTopPublications();
+            return res.status(200).json(topPublications);
+        } catch (error: any) {
+            console.error('Error fetching top publications:', error);
+            return res.status(500).json({ error: 'Failed to retrieve top publications.' });
+        }
+    }
+
     async createPublication(req: Request, res: Response) {
         const { title, image, content, authorname } = req.body;
 

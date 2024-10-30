@@ -99,6 +99,31 @@ router.get("/publications/:id", authMiddlewareJWT, publicationController.getPubl
 
 /**
  * @openapi
+ * /api/v1/publications/top:
+ *   get:
+ *     summary: Retrieve a list of the 4 publications with the highest like count
+ *     tags:
+ *       - Publications
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of publications.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Publication'
+ *       404:
+ *         description: No publications found.
+ *       500:
+ *         description: Internal server error.
+ */
+router.get("/publications/top", authMiddlewareJWT, publicationController.getTopPublications);
+
+/**
+ * @openapi
  * /api/v1/publications:
  *   post:
  *     summary: Create a new publication
