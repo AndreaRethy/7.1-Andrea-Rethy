@@ -22,15 +22,11 @@ export class publicationRepositoryImpl {
         });
     }
 
-    async getTopPublications(limit: number = 4): Promise<Publication[]> {
+    async getTopPublications(limit: number): Promise<Publication[]> {
         return await prisma.publication.findMany({
-            where: { isDeleted: false }, // Exclude deleted publications
+            where: { isDeleted: false },
             orderBy: { likeCount: 'desc' },
-            take: limit,
-            include: {
-                author: true,
-                likedBy: true,
-            },
+            take: limit
         });
     }
 
