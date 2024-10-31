@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "./Header";
+import Header from "./Header.tsx";
 
 const URL = "/api/v1/publications";
 
@@ -68,7 +68,7 @@ function getPublications() {
     <>
     <Header />
       <div className='text-slate-800 text-2xl font-bold'>All Publications</div>
-      // TODO: Create grid, handle images
+      {/* // TODO: Create grid, handle images */}
       <ul className="flex flex-col items-start">
         {
           Array.isArray(publications) && publications.length > 0 ? (
