@@ -55,3 +55,94 @@ input::-webkit-contacts-auto-fill-button {
   position: absolute;
   right: 0;
 }
+
+/** Animations for carousel texts */
+.carousel.next .hero-location {
+  background-color: transparent;
+  animation: showBackground 0.5s linear 2s 1 normal forwards;
+}
+
+@keyframes showBackground {
+  to{
+      background-color: var(--bg-hero);
+  }
+}
+
+.carousel.next .item:first-child .hero-location > h2,
+.carousel.next .item:first-child .hero-location > p,
+.carousel.next .item:first-child .hero-location > div,
+.carousel.next .item:first-child .hero-location > a {
+  transform: translateY(2.78rem);
+  filter: blur(20px);
+  opacity: 0;
+  animation: showContent 0.5s linear 1s 1 normal forwards;
+}
+
+.carousel.next .item:first-child .hero-location > h2 {
+  animation-delay: 1.2s;
+}
+
+.carousel.next .item:first-child .hero-location > p {
+  animation-delay: 1.4s;
+}
+
+.carousel.next .item:first-child .hero-location > div {
+  animation-delay: 1.6s;
+}
+
+.carousel.next .item:first-child .hero-location > a {
+  animation-delay: 1.8s;
+}
+
+@keyframes showContent {
+  to{
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+  }
+}
+
+/** Animations for thumbnail growing effect */
+.carousel.next .list .item:first-child .slider-img {
+  width:  8.33rem;
+  height: 12.22rem;
+  position: absolute;
+  left: 50%;
+  bottom: 2.78rem;
+  border-radius: 1.1rem;
+  animation: showImage 0.5s linear 1 forwards;
+}
+
+@keyframes showImage {
+  to {
+      width: 100%;
+      height: 100%;
+      left: 0;
+      bottom: 0;
+      border-radius: 0;
+  }
+}
+
+/**  Animation for thumbnail moving effect  */
+.carousel.next .thumbnail .item:last-child {
+  width: 0;
+  overflow: hidden;
+  animation: showThumbnail 0.5s linear 1 forwards;
+}
+
+@keyframes showThumbnail {
+  to {
+      width:  8.33rem;
+  }
+}
+
+.carousel.next .thumbnail{
+  transform: translateX( 8.33rem);
+  animation: moveThumbnail 0.5s linear 1 forwards;
+}
+
+@keyframes moveThumbnail {
+  to {
+      transform: translateX(0);
+  }  
+}

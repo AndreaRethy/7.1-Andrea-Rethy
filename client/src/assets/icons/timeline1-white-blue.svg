@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 28 459" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs/>
+<clipPath id="ArtboardFrame">
+<rect height="459" width="28" x="0" y="0"/>
+</clipPath>
+<g clip-path="url(#ArtboardFrame)" id="Untitled" vectornator:layerName="Untitled">
+<path d="M14 14L14 445" fill="#00496a" fill-opacity="0.9" fill-rule="nonzero" opacity="1" stroke="#00496a" stroke-linecap="butt" stroke-linejoin="miter" stroke-opacity="0.9" stroke-width="2" vectornator:layerName="line"/>
+<path d="M14 14L14 445" fill="#00496a" fill-opacity="0.9" fill-rule="nonzero" opacity="1" stroke="#00496a" stroke-linecap="butt" stroke-linejoin="miter" stroke-opacity="0.9" stroke-width="2" vectornator:layerName="line 1"/>
+<path d="M7 307C7 304.824 7.99291 302.88 9.55038 301.596C10.7599 300.599 12.31 300 14 300C17.866 300 21 303.134 21 307C21 310.866 17.866 314 14 314C10.134 314 7 310.866 7 307Z" fill="#00496a" fill-opacity="0.9" fill-rule="nonzero" opacity="1" stroke="#00496a" stroke-linecap="butt" stroke-linejoin="miter" stroke-opacity="0.9" stroke-width="1" vectornator:layerName="circle"/>
+<path d="M7.5 307C7.5 303.41 10.4101 300.5 14 300.5C17.5899 300.5 20.5 303.41 20.5 307C20.5 310.59 17.5899 313.5 14 313.5C10.4101 313.5 7.5 310.59 7.5 307Z" fill="#00496a" fill-opacity="0.9" fill-rule="nonzero" opacity="1" stroke="#00496a" stroke-linecap="butt" stroke-linejoin="miter" stroke-opacity="0.9" stroke-width="1" vectornator:layerName="circle"/>
+<path d="M7 452C7 448.134 10.134 445 14 445C17.866 445 21 448.134 21 452C21 455.866 17.866 459 14 459C10.134 459 7 455.866 7 452Z" fill="#00496a" fill-opacity="0.9" fill-rule="nonzero" opacity="1" stroke="#00496a" stroke-linecap="butt" stroke-linejoin="miter" stroke-opacity="0.9" stroke-width="1" vectornator:layerName="circle"/>
+<path d="M7.5 452C7.5 448.41 10.4101 445.5 14 445.5C17.5899 445.5 20.5 448.41 20.5 452C20.5 455.59 17.5899 458.5 14 458.5C10.4101 458.5 7.5 455.59 7.5 452Z" fill="#00496a" fill-opacity="0.9" fill-rule="nonzero" opacity="1" stroke="#00496a" stroke-linecap="butt" stroke-linejoin="miter" stroke-opacity="0.9" stroke-width="1" vectornator:layerName="circle"/>
+<path d="M7 155C7 151.134 10.134 148 14 148C17.866 148 21 151.134 21 155C21 158.866 17.866 162 14 162C10.134 162 7 158.866 7 155Z" fill="#00496a" fill-opacity="0.9" fill-rule="nonzero" opacity="1" stroke="#00496a" stroke-linecap="butt" stroke-linejoin="miter" stroke-opacity="0.9" stroke-width="1" vectornator:layerName="circle"/>
+<path d="M7.5 155C7.5 151.41 10.4101 148.5 14 148.5C17.5899 148.5 20.5 151.41 20.5 155C20.5 158.59 17.5899 161.5 14 161.5C10.4101 161.5 7.5 158.59 7.5 155Z" fill="#00496a" fill-opacity="0.9" fill-rule="nonzero" opacity="1" stroke="#00496a" stroke-linecap="butt" stroke-linejoin="miter" stroke-opacity="0.9" stroke-width="1" vectornator:layerName="circle"/>
+<path d="M0.5 14C0.5 6.54416 6.54416 0.5 14 0.5C21.4558 0.5 27.5 6.54416 27.5 14C27.5 21.4558 21.4558 27.5 14 27.5C6.54416 27.5 0.5 21.4558 0.5 14Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="#00496a" stroke-linecap="butt" stroke-linejoin="miter" stroke-opacity="0.9" stroke-width="1" vectornator:layerName="circle"/>
+</g>
+</svg>

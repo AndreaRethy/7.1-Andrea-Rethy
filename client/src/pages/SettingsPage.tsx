@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import background from '../assets/background.jpg';
 import { FaUser, FaLock, FaUserTag } from "react-icons/fa";
 import { FaClipboardUser, FaUserGear, FaUserLargeSlash, FaArrowLeftLong } from "react-icons/fa6";
