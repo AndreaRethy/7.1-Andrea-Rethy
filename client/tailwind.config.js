@@ -20,7 +20,7 @@ export default {
     },
     extend: {
       colors: {
-        'herobg': '#00496a',
+        'herobg': '#00496a60',
         'shadow': '#00496a33',
         transparent: 'transparent',
       },

@@ -69,7 +69,7 @@ const Header = () => {
   }
 
   useEffect(() => {
-    if (popularPublications.length > 0) {
+    if (popularPublications.length > 1) {
       // Start the slide show
       slideIntervalRef.current = window.setInterval(() => {
         setIsAnimating(true);
@@ -90,7 +90,7 @@ const Header = () => {
   }, [popularPublications.length]);
 
   return (
-    <header className="w-full bg-slate-500 text-white relative">
+    <header className="w-full h-screen bg-slate-500 text-white relative">
       <h2 className="text-slate-800 text-2xl font-bold">Top Publications</h2>
       {/* Carousel */}
       <div className={`carousel h-full w-full overflow-hidden ${isAnimating ? "next" : ""}`}>
@@ -122,14 +122,13 @@ const Header = () => {
                     />
                   </figure>
                   {/* Hero Location */}
-                  <div className="hero-location w-4/5 bg-herobg opacity-50 overflow-hidden rounded-md m-6 p-6 flex flex-col gap-5 ">
+                  <div className="hero-location w-4/5 bg-herobg overflow-hidden rounded-lg m-6 p-6 flex flex-col gap-5 ">
                     {/* Title */}
-                    <h3 className="text-7xl uppercase font-bold">{publication.title}</h3>
+                    <h3 className="text-4xl uppercase font-bold">{publication.title}</h3>
                     <p>by {publication.authorname}</p>
                     {/* Carousel Button */}
                     <div className="carousel-button">
-                      {/* Button Green */}
-                      <a href="#" className="button-green flex items-center">
+                      <a href="#" className="flex items-center">
                         Read more <FaArrowRightLong className="ml-2" />
                       </a>
                     </div>
@@ -145,17 +144,15 @@ const Header = () => {
         {/* Thumbnails */}
         <div className="thumbnail absolute bottom-7 left-1/2 transform -translate-x-1/2 w-max z-10 flex gap-4">
           {Array.isArray(popularPublications) && popularPublications.length > 0 ? (
-            popularPublications.map((publication, index) => (
+            popularPublications.map((publication) => (
               <div
                 key={publication.id}
-                className={`item w-32 h-48 shrink-0 relative rounded-md shadow-item ${
-                  index === currentSlide ? "border-2 border-blue-500" : ""
-                }`}
+                className={'item w-32 h-48 shrink-0 relative rounded-md shadow-item'}
               >
                 <img
                   src={publication.image}
                   alt="Thumbnail image"
-                  className="w-full h-full object-cover rounded-sm"
+                  className="w-full h-full object-cover rounded-md"
                 />
               </div>
             ))
