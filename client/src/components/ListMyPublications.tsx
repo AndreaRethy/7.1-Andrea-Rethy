@@ -1,21 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 const URL = "/api/v1/publications/user/";
 
 type Publication = {
   id: number,
   title: string,
-  content: string,
-  createdAt: Date,
-  updatedAt: Date,
+  image: string,
   likeCount: number,
   isDeleted: boolean,
   authorname: string
 }
 
-const ListMyPublications = () => {
+const ListMyPublications = ({ onRead }: { onRead: (id:number) => void }) => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
@@ -62,33 +61,37 @@ function getPublications() {
     return response.json();
   })
   .then((data) => setPublications(data))
-  .catch((error) => console.error('Error fetching publications:', error));
-  
+  .catch((error) => console.error('Error fetching publications:', error)); 
 }
 
   return (
-    <>
-      <div className='text-slate-800 text-2xl font-bold'>My Publications</div>
-      <ul className="flex flex-col items-start">
+    <div className="p-4">
+      <h2 className='text-slate-800 text-2xl font-bold text-left'>My Publications</h2>
+      <div className="flex gap-4 flex-wrap overflow-hidden w-full">
         {
           Array.isArray(publications) && publications.length > 0 ? (
-            publications.map((publication, index) => (
-
-              // TODO: Create grid, handle images
-              
-              <li key={index} className="text-slate-800">
-                {publication.title}
-                {" - "}
-                {publication.authorname}
-              </li>
+            publications.map((publication) => (
+              <div key={publication.id} className="w-1/5 min-h-64 rounded-md overflow-hidden border">
+                <figure className="w-full h-36 overflow-hidden">
+                  <img src={publication.image} className="object-cover object-center" />
+                </figure>
+                <div className="text-slate-800 font-bold p-2">
+                  {publication.title}
+                  <div className="font-normal pt-2" onClick={() => onRead(publication.id)}>
+                      <a href="#" className="flex items-center">
+                        Read more <FaArrowRightLong className="ml-2" />
+                      </a>
+                    </div>
+                </div>
+              </div>
             ))
           )
            : (
             <li className="text-slate-800">{"Publications not found"}</li>
           )
         }
-      </ul>
-    </>
+      </div>
+    </div>
   )
 }
 

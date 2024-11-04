@@ -13,12 +13,14 @@ import NewPost from '../components/NewPost';
 
 const MainPage: React.FC = () => {
   const [view, setView] = useState(0);
+  const [selectedPublicationId, setSelectedPublicationId] = useState(0);
 
   const handlePostSuccess = () => {
     setView(2);
   };
 
-  const handleRead = () => {
+  const handleRead = (id: number) => {
+    setSelectedPublicationId(id);
     setView(4);
   };
 
@@ -34,9 +36,9 @@ const MainPage: React.FC = () => {
         <div className='content-view min-h-svh min-w-full'>
             {view === 0 && <ListPublications onRead={handleRead} />}
             {view === 1 && <NewPost onPostSuccess={handlePostSuccess} />}
-            {view === 2 && <ListMyPublications />}
+            {view === 2 && <ListMyPublications onRead={handleRead} />}
             {view === 3 && <Users />}
-            {view === 4 && <ReadPublication />}
+            {view === 4 && <ReadPublication publicationId={selectedPublicationId} />}
         </div>
         <div></div>
     </section>

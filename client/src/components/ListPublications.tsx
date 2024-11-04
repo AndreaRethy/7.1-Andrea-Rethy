@@ -10,15 +10,12 @@ type Publication = {
   id: number,
   title: string,
   image: string,
-  content: string,
-  createdAt: Date,
-  updatedAt: Date,
   likeCount: number,
   isDeleted: boolean,
   authorname: string
 }
 
-const ListPublications = ({ onRead }: { onRead: () => void }) => {
+const ListPublications = ({ onRead }: { onRead: (id:number) => void }) => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
   const [publications, setPublications] = useState<Publication[]>([]);
@@ -65,10 +62,6 @@ function getPublications() {
   .catch((error) => console.error('Error fetching publications:', error));
 }
 
-const handleClick = () => {
- onRead();
-}
-
   return (
     <div className="p-4">
     {/* <Header /> */}
@@ -83,7 +76,7 @@ const handleClick = () => {
                 </figure>
                 <div className="text-slate-800 font-bold p-2">
                   {publication.title}
-                  <div className="font-normal pt-2" onClick={handleClick}>
+                  <div className="font-normal pt-2" onClick={() => onRead(publication.id)}>
                       <a href="#" className="flex items-center">
                         Read more <FaArrowRightLong className="ml-2" />
                       </a>
