@@ -1,6 +1,7 @@
 import Sidebar, { SidebarItem } from '../components/SideBar';
 import ListPublications from '../components/ListPublications';
 import ListMyPublications from '../components/ListMyPublications';
+import ReadPublication from '../components/ReadPublication';
 import Users from '../components/Users';
 import { FaUsers } from "react-icons/fa";
 import { FaList } from "react-icons/fa6";
@@ -14,7 +15,11 @@ const MainPage: React.FC = () => {
   const [view, setView] = useState(0);
 
   const handlePostSuccess = () => {
-    setView(2); // Switch to "My Publications" view on successful post
+    setView(2);
+  };
+
+  const handleRead = () => {
+    setView(4);
   };
 
   return (
@@ -27,10 +32,11 @@ const MainPage: React.FC = () => {
           <SidebarItem icon={<FaUsers size={20}/>} text={"Users"} active={view === 3} onClick={() => setView(3)}/>
         </Sidebar>
         <div className='content-view min-h-svh min-w-full'>
-            {view === 0 && <ListPublications />}
+            {view === 0 && <ListPublications onRead={handleRead} />}
             {view === 1 && <NewPost onPostSuccess={handlePostSuccess} />}
             {view === 2 && <ListMyPublications />}
             {view === 3 && <Users />}
+            {view === 4 && <ReadPublication />}
         </div>
         <div></div>
     </section>
