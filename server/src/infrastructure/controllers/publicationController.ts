@@ -88,13 +88,15 @@ export class PublicationController {
     async likePublication(req: Request, res: Response){
         const { id } = req.params;
         const ID = parseInt(id);
+        const { userId } = req.body;
+        const USERID = parseInt(userId)
 
         if (isNaN(ID)) {
             return res.status(400).json({ message: "invalid publication id" });
         }
 
         try {
-            const updatedLikes = await publicationService.likePublication(ID);
+            const updatedLikes = await publicationService.likePublication(ID, USERID);
             return res.status(200).json(updatedLikes)
         } catch (error: any) {
             return res.status(500).json({ error: error.message });

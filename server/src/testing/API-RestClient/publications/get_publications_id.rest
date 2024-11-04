@@ -1,2 +1,2 @@
-GET http://localhost:3000/api/v1/publications/2
+GET http://localhost:3000/api/v1/publications/1
 Content-Type: application/json

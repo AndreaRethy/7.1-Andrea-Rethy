@@ -42,16 +42,43 @@ export class publicationRepositoryImpl {
         });
     }
 
-    async likePublication(id: number): Promise<Publication> {
+    async hasUserLiked(publicationId: number, userId: number): Promise<boolean> {
+        const publication = await prisma.publication.findUnique({
+            where: { id: publicationId },
+            select: {
+                likedBy: {
+                    where: { id: userId },
+                },
+            },
+        });
+
+        if (publication) {
+            return publication.likedBy.length > 0;
+        }
+
+        return false
+    }
+
+    async likePublication(publicationId: number, userId: number): Promise<Publication> {
         try {
-            return await prisma.publication.update({
-                where: { id },
+            const alreadyLiked = await this.hasUserLiked(publicationId, userId);
+            if (alreadyLiked) {
+              throw new Error('User has already liked this publication.');
+            }
+
+            const updatedPublication = await prisma.$transaction(async (tx) => {
+              const publication = await tx.publication.update({
+                where: { id: publicationId },
                 data: {
-                    likeCount: {
-                        increment: 1,
-                    }
-                }
+                  likeCount: { increment: 1 },
+                  likedBy: { connect: { id: userId } },
+                },
               });
+      
+              return publication;
+            });
+      
+            return updatedPublication;
         } catch (error) {
             throw new Error(`Publication not found or error updating publication: ${error}`);
           }

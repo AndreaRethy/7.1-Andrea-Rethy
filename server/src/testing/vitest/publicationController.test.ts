@@ -331,6 +331,9 @@ describe("PublicationController", () => {
             
             const req = {
                 params: { id: publication.id },
+                body: {
+                    userId: user.id
+                }
             } as unknown as Request;
             const res = {
                 status: vi.fn().mockReturnThis(),

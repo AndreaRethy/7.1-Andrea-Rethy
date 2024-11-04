@@ -29,12 +29,12 @@ export class PublicationService {
         return await this.publicationRepository.createPublication(data);
     }
 
-    async likePublication(id: number): Promise<Publication> {
-        const publication = await this.publicationRepository.getPublicationById(id);
+    async likePublication(publicationId: number, userId: number): Promise<Publication> {
+        const publication = await this.publicationRepository.getPublicationById(publicationId);
         if (!publication) {
             throw new Error("Publication not found");
         }
-        return await this.publicationRepository.likePublication(id);
+        return await this.publicationRepository.likePublication(publicationId, userId);
     }
 
     async updatePublication(

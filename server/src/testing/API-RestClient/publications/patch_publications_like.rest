@@ -1,2 +1,7 @@
-PATCH http://localhost:3000/api/v1/publications/2/like
+PATCH http://localhost:3000/api/v1/publications/1/like
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiIkMmEkMTAkb1VqYVI1aXZub3QzVU82Rk1IZVhRZVA3cWtXUlRWSlhJMTU2aEJGclhzZTJUUEZ1RVV4THUiLCJuYW1lIjoiQW5kcmVhIiwiY3JlYXRlZEF0IjoiMjAyNC0xMC0zMFQwOTo0ODowMC40MTFaIiwicm9sZSI6IkFETUlOIiwiaXNCYW5uZWQiOmZhbHNlfSwiaWF0IjoxNzMwNzIwMzA0LCJleHAiOjE3MzA3MjM5MDR9.7W8MLsS860k6sO8YniipVY8RvM2VUo3hAhjP1bCWuxk
+
+{
+    "userId": 1
+}
