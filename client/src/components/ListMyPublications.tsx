@@ -63,21 +63,25 @@ function getPublications() {
       <div className="flex flex-wrap justify-evenly overflow-hidden w-full">
         {
           Array.isArray(publications) && publications.length > 0 ? (
-            publications.map((publication) => (
-              <div key={publication.id} className="w-[23%] min-h-96 rounded-md overflow-hidden border">
-                <figure className="w-full h-64 overflow-hidden">
-                  <img src={publication.image} className="object-cover object-center" />
-                </figure>
-                <div className="text-slate-800 font-bold p-2">
-                  {publication.title}
-                  <div className="font-normal pt-2" onClick={() => onRead(publication.id)}>
-                      <a href="#" className="flex items-center">
-                        Read more <FaArrowRightLong className="ml-2" />
-                      </a>
-                    </div>
+            publications.map((publication) => {
+              //const isDeleted = publication.isDeleted;
+              
+              return (
+                <div key={publication.id} className="w-[23%] max-w-[24%] min-h-96 rounded-md overflow-hidden border flex-grow-0">
+                  <figure className="w-full h-64 overflow-hidden">
+                    <img src={publication.image} className="object-cover object-center" />
+                  </figure>
+                  <div className="text-slate-800 font-bold p-2">
+                    {publication.title}
+                    <div className="font-normal pt-2" onClick={() => onRead(publication.id)}>
+                        <a href="#" className="flex items-center">
+                          Read more <FaArrowRightLong className="ml-2" />
+                        </a>
+                      </div>
+                  </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )
            : (
             <li className="text-slate-800">{"Publications not found"}</li>
