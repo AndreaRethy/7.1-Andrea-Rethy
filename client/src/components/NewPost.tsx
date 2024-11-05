@@ -64,7 +64,7 @@ const NewPost = ({ onPostSuccess }: { onPostSuccess: () => void }) => {
             <form onSubmit={post}>
                 <div className="flex flex-col justify-center space-x-6 my-4">
                   {/* max 191 characters */}
-                    <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 appearance-none' type='url' placeholder='Image URL' required value={image} id='image' onChange={(e) => setImage(e.target.value)} />
+                    <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 appearance-none' type='url' placeholder='Image URL' value={image} id='image' onChange={(e) => setImage(e.target.value)} />
                     {/* max 191 characters */}
                     <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 appearance-none' type='text' placeholder='Title' required value={title} id='title' onChange={(e) => setTitle(e.target.value)} />
                     <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 appearance-none' type='text' placeholder='Your post body...' required value={content} id='title' onChange={(e) => setContent(e.target.value)} />
