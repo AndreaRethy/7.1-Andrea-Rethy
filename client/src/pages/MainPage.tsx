@@ -25,22 +25,21 @@ const MainPage: React.FC = () => {
   };
 
   return (
-    <section className='flex justify-between items-center min-h-full bg-slate-50'>
+    <section className='flex min-h-full bg-slate-50 w-full relative'>
         <Sidebar>
-        <SidebarItem icon={<CiBookmark size={20}/>} text={"Home"} active={view === 0} onClick={() => setView(0)}/>
+          <SidebarItem icon={<CiBookmark size={20}/>} text={"Home"} active={view === 0} onClick={() => setView(0)}/>
           <SidebarItem icon={<LuPlusSquare size={20}/>} text={"New Post"} active={view === 1} onClick={() => setView(1)}/>
           <SidebarItem icon={<FaList size={20}/>} text={"My Publications"} active={view === 2} onClick={() => setView(2)}/>
           {/* TODO: Users menu should be only visible for admins */}
           <SidebarItem icon={<FaUsers size={20}/>} text={"Users"} active={view === 3} onClick={() => setView(3)}/>
         </Sidebar>
-        <div className='content-view min-h-svh min-w-full'>
+        <div className='content-view min-h-full w-full flex-1 overflow-auto'>
             {view === 0 && <ListPublications onRead={handleRead} />}
             {view === 1 && <NewPost onPostSuccess={handlePostSuccess} />}
             {view === 2 && <ListMyPublications onRead={handleRead} />}
             {view === 3 && <Users />}
             {view === 4 && <ReadPublication publicationId={selectedPublicationId} />}
         </div>
-        <div></div>
     </section>
   );
 };

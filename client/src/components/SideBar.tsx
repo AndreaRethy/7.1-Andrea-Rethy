@@ -18,7 +18,7 @@ export default function Sidebar({ children }: SidebarProps) {
   const username = sessionStorage.getItem("username");
 
   return (
-    <aside className="h-screen">
+    <aside className="h-screen sticky top-0">
       <nav className="h-full flex flex-col bg-slate-950 border-r border-slate-500 shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <img

@@ -67,12 +67,12 @@ function getPublications() {
   return (
     <div className="p-4">
       <h2 className='text-slate-800 text-2xl font-bold text-left'>My Publications</h2>
-      <div className="flex gap-4 flex-wrap overflow-hidden w-full">
+      <div className="flex flex-wrap justify-evenly overflow-hidden w-full">
         {
           Array.isArray(publications) && publications.length > 0 ? (
             publications.map((publication) => (
-              <div key={publication.id} className="w-1/5 min-h-64 rounded-md overflow-hidden border">
-                <figure className="w-full h-36 overflow-hidden">
+              <div key={publication.id} className="w-[23%] min-h-96 rounded-md overflow-hidden border">
+                <figure className="w-full h-64 overflow-hidden">
                   <img src={publication.image} className="object-cover object-center" />
                 </figure>
                 <div className="text-slate-800 font-bold p-2">

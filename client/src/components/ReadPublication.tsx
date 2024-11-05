@@ -63,22 +63,24 @@ const ReadPublication = ({ publicationId }: { publicationId: number }) => {
     const updatedAtDate = new Date(publication.updatedAt);
   
     return (
-      <div className="p-4">
+      <div className="p-4 w-full">
         <h2 className="text-2xl font-bold">{publication.title}</h2>
         <p>
-        By {publication.authorname}, published:{' '}
-        {isNaN(createdAtDate.getTime())
-          ? 'Invalid Date'
-          : createdAtDate.toLocaleDateString()}
-      </p>
-      <p>
-        Last updated:{' '}
-        {isNaN(updatedAtDate.getTime())
-          ? 'Invalid Date'
-          : updatedAtDate.toLocaleDateString()}
-      </p>
-        <img src={publication.image} alt={publication.title} className="my-4" />
-        <p>{publication.content}</p>
+          By {publication.authorname}, published:{' '}
+          {isNaN(createdAtDate.getTime())
+            ? 'Invalid Date'
+            : createdAtDate.toLocaleDateString()}
+        </p>
+        <p>
+          Last updated:{' '}
+          {isNaN(updatedAtDate.getTime())
+            ? 'Invalid Date'
+            : updatedAtDate.toLocaleDateString()}
+        </p>
+        <figure className="my-4 w-full max-h-[60vh] overflow-hidden flex justify-center">
+          <img src={publication.image} alt={publication.title} className="w-full h-auto object-center object-cover" />
+        </figure>
+        <p className="break-words">{publication.content}</p>
       </div>
     );
   };
