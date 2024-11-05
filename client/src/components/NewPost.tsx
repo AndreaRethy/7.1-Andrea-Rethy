@@ -51,18 +51,11 @@ const NewPost = ({ onPostSuccess }: { onPostSuccess: () => void }) => {
           ),
         })
         .then((response) => {
-            if (!response.ok) {
-              return response.json().then((errorData) => {
-                if (response.status === 403) {
-                  if (errorData.error === "Invalid token") {
-                    navigate("/");
-                  }
-                }
-                throw new Error(errorData.error || 'An error occurred');
-              });
-            }
-            return response.json();
-          })
+          if (response.status === 403 || response.status === 401) {
+            navigate("/");
+          }
+          return response.json();
+        })
           .catch((error) => console.error('Error posting publication:', error));
     }
 

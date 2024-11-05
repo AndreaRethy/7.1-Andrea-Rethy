@@ -43,7 +43,12 @@ const ReadPublication = ({ publicationId }: { publicationId: number }) => {
             },
             credentials: 'include',
           })
-          .then(response => response.json())
+          .then((response) => {
+            if (response.status === 403 || response.status === 401) {
+              navigate("/");
+            }
+            return response.json();
+          })
           .then(data => {
             setPublication(data);
             setLoading(false);

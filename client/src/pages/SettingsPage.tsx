@@ -38,14 +38,8 @@ const ProfilePage = () => {
       credentials: 'include',
     })
     .then((response) => {
-      if (!response.ok) {
-        return response.json().then((errorData) => {
-          if (response.status === 403 && errorData.error === "Invalid token") {
-            navigate("/");
-          } else {
-            throw new Error(errorData.error || 'An error occured');
-          }
-        });
+      if (response.status === 403 || response.status === 401) {
+        navigate("/");
       }
       return response.json();
     })
@@ -72,14 +66,8 @@ const ProfilePage = () => {
        }),
     })
     .then((response) => {
-      if (!response.ok) {
-        return response.json().then((errorData) => {
-          if (response.status === 403 && errorData.error === "Invalid token") {
-            navigate("/");
-          } else {
-            throw new Error(errorData.error || 'An error occured');
-          }
-        });
+      if (response.status === 403 || response.status === 401) {
+        navigate("/");
       }
       return response.json();
     })
@@ -121,14 +109,8 @@ const ProfilePage = () => {
        }),
     })
     .then((response) => {
-      if (!response.ok) {
-        return response.json().then((errorData) => {
-          if (response.status === 403 && errorData.error === "Invalid token") {
-            navigate("/");
-          } else {
-            throw new Error(errorData.error || 'An error occured');
-          }
-        });
+      if (response.status === 403 || response.status === 401) {
+        navigate("/");
       }
       return response.json();
     })
