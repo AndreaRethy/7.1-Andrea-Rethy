@@ -67,6 +67,40 @@ router.get("/publications/user/:username", authMiddlewareJWT, publicationControl
 
 /**
  * @openapi
+ * /api/v1/publications/likedbyuser/{id}:
+ *   get:
+ *     summary: Retrieve publications liked by a specific user
+ *     tags:
+ *       - Publications
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         id: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User's ID
+ *     responses:
+ *       200:
+ *         description: A list of publications liked by the user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Publication'
+ *       400:
+ *         description: Missing required field.
+ *       404:
+ *         description: No publications found for the user.
+ *       500:
+ *         description: Internal server error.
+ */
+router.get("/publications/likedbyuser/:id", authMiddlewareJWT, publicationController.getLikedPublicationsForUser);
+
+/**
+ * @openapi
  * /api/v1/publications/top:
  *   get:
  *     summary: Retrieve a list of the 4 publications with the highest like count

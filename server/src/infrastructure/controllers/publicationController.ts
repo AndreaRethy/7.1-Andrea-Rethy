@@ -34,6 +34,25 @@ export class PublicationController {
         }
     }
 
+    async getLikedPublicationsForUser(req: Request, res: Response) {
+        const { id } = req.params;
+        const USERID = parseInt(id)
+
+        if (!USERID) {
+            return res.status(400).json({ message: "Missing required field" });
+        }
+
+        try {
+            const publications = await publicationService.getLikedPublicationsForUser(USERID);
+            if (publications.length === 0) {
+                return res.status(404).json({ message: "No publications found" });
+            }
+            return res.status(200).json(publications)
+        } catch (error: any) {
+            return res.status(500).json({ error: error.message });
+        }
+    }
+
     async getPublicationById(req: Request, res: Response) {
         const { id } = req.params;
         const publicationId = parseInt(id)

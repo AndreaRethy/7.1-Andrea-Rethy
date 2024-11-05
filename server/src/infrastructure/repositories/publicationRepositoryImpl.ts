@@ -16,6 +16,18 @@ export class publicationRepositoryImpl {
           });
     }
 
+    async getLikedPublicationsForUser(userId: number): Promise<Publication[]> {
+        return await prisma.publication.findMany({
+            where: {
+              likedBy: {
+                some: {
+                    id: userId
+                }
+              },
+            },
+          });
+    }
+
     async getPublicationById(id: number): Promise<Publication | null> {
         return await prisma.publication.findUnique({
             where: { id },

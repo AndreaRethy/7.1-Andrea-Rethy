@@ -19,6 +19,10 @@ export class PublicationService {
         return await this.publicationRepository.getPublicationsForUser(username);
     }
 
+    async getLikedPublicationsForUser(userId: number): Promise<Publication[]> {
+        return await this.publicationRepository.getLikedPublicationsForUser(userId);
+    }
+
     async getTopPublications(): Promise<Publication[]> {
         return await this.publicationRepository.getTopPublications(4);
     }
