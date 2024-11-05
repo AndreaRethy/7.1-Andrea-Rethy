@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaArrowRightLong } from "react-icons/fa6";
+import { FaArrowRightLong, FaHeart, FaRegHeart } from "react-icons/fa6";
 // import Header from "./Header.tsx";
 
 const URL = "/api/v1/publications";
@@ -15,16 +15,23 @@ type Publication = {
   authorname: string
 }
 
+const tempArray: number[] = [];
+
 const ListPublications = ({ onRead }: { onRead: (id:number) => void }) => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
   const [publications, setPublications] = useState<Publication[]>([]);
+  const [likedPublications, setLikedPublications] = useState<number[]>([]);
+
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem('token');
+    const storedId = sessionStorage.getItem('userId');
 
-    if (storedToken) {
+    if (storedToken && storedId) {
       setToken(storedToken);
+      setUserId(parseInt(storedId));
     } else {
       navigate('/');
     }
@@ -33,8 +40,41 @@ const ListPublications = ({ onRead }: { onRead: (id:number) => void }) => {
   useEffect(() => {
     if (token !== null) {
       getPublications();
+      getLikedPublications();
     }
   }, [token]);
+
+function getLikedPublications() {
+  fetch(`/api/v1/publications/likedbyuser/${userId}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+  .then((response) => {
+    if (!response.ok) {
+      return response.json().then((errorData) => {
+        if (response.status === 403) {
+          if (errorData.error === "Invalid token") {
+            navigate("/");
+          }
+        }
+        throw new Error(errorData.error || 'An error occurred');
+      });
+    }
+    return response.json();
+  })
+  .then((data) => 
+    data.map((publication: Publication) => {
+      tempArray.push(publication.id)
+      
+    },
+    setLikedPublications(tempArray)
+  ))
+  .catch((error) => console.error('Error fetching publications:', error));
+}
 
 function getPublications() {
   fetch(`${URL}`, {
@@ -62,28 +102,76 @@ function getPublications() {
   .catch((error) => console.error('Error fetching publications:', error));
 }
 
+function likePublication(id: number) {
+  fetch(`${URL}/${id}/like`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(
+      { 
+          "userId": userId,
+      }
+    ),
+  })
+  .then((response) => {
+    if (!response.ok) {
+      return response.json().then((errorData) => {
+        if (response.status === 403) {
+          navigate("/");
+        }
+        throw new Error(errorData.error || 'An error occurred');
+      });
+    }
+    return response.json();
+  })
+  .then((data) => setPublications(data))
+  .catch((error) => console.error('Error fetching publications:', error));
+}
+
   return (
     <div className="p-4">
     {/* <Header /> */}
-      <h2 className='text-slate-800 text-2xl font-bold text-left'>All Publications</h2>
-      <div className="flex gap-4 flex-wrap overflow-hidden w-full">
+      <h2 className='text-slate-800 text-2xl font-bold text-left mb-2'>All Publications</h2>
+      <div className="flex flex-wrap justify-evenly overflow-hidden w-full">
         {
           Array.isArray(publications) && publications.length > 0 ? (
-            publications.map((publication) => (
-              <div key={publication.id} className="w-1/5 min-h-64 rounded-md overflow-hidden border">
-                <figure className="w-full h-36 overflow-hidden">
-                  <img src={publication.image} className="object-cover object-center" />
-                </figure>
-                <div className="text-slate-800 font-bold p-2">
-                  {publication.title}
-                  <div className="font-normal pt-2" onClick={() => onRead(publication.id)}>
+            publications.map((publication) => {
+              const isLiked = likedPublications.includes(publication.id);
+      
+              return (
+                <div
+                  key={publication.id}
+                  className="w-[23%] min-h-96 rounded-md overflow-hidden border"
+                >
+                  <figure className="w-full h-64 overflow-hidden relative">
+                    <img
+                      src={publication.image}
+                      alt={publication.title}
+                      className="object-cover object-center w-full h-full"
+                    />
+                    {isLiked ? (
+                      <FaHeart className="z-10 absolute top-2 right-4 text-xl text-pink-500" />
+                    ) : (
+                      <FaRegHeart className="z-10 absolute top-2 right-4 text-xl text-white cursor-pointer" onClick={() => likePublication(publication.id)}/>
+                    )}
+                  </figure>
+                  <div className="text-slate-800 font-bold p-2">
+                    {publication.title}
+                    <div
+                      className="font-normal pt-2"
+                      onClick={() => onRead(publication.id)}
+                    >
                       <a href="#" className="flex items-center">
                         Read more <FaArrowRightLong className="ml-2" />
                       </a>
                     </div>
+                  </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )
            : (
             <li className="text-slate-800">{"Publications not found"}</li>
