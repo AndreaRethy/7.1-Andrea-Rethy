@@ -19,6 +19,10 @@ const MainPage: React.FC = () => {
     setView(2);
   };
 
+  const loadHome = () => {
+    setView(0);
+  };
+
   const handleRead = (id: number) => {
     setSelectedPublicationId(id);
     setView(4);
@@ -38,7 +42,7 @@ const MainPage: React.FC = () => {
             {view === 1 && <NewPost onPostSuccess={handlePostSuccess} />}
             {view === 2 && <ListMyPublications onRead={handleRead} />}
             {view === 3 && <Users />}
-            {view === 4 && <ReadPublication publicationId={selectedPublicationId} />}
+            {view === 4 && <ReadPublication publicationId={selectedPublicationId} onDeletion={loadHome} />}
         </div>
     </section>
   );

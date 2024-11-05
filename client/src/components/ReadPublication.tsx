@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import { BsTrash3 } from "react-icons/bs";
 
 const URL = "/api/v1/publications/"
 
@@ -16,7 +17,14 @@ type Publication = {
     authorname: string
   }
 
-const ReadPublication = ({ publicationId }: { publicationId: number }) => {
+  
+
+  interface ReadPublicationProps {
+    publicationId: number;
+    onDeletion: () => void;
+  }
+  
+  const ReadPublication: React.FC<ReadPublicationProps> = ({ publicationId, onDeletion }) => {
     const navigate = useNavigate();
     const [publication, setPublication] = useState<Publication>();
     const [token, setToken] = useState<string | null>(null);
@@ -66,6 +74,33 @@ const ReadPublication = ({ publicationId }: { publicationId: number }) => {
 
     const createdAtDate = new Date(publication.createdAt);
     const updatedAtDate = new Date(publication.updatedAt);
+    
+    function handleDeletion() {
+      // check from token if user is admin
+      const isAdmin = true;
+      if (isAdmin) {
+        fetch(`${URL}${publicationId}/delete`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        })
+        .then((response) => {
+          if (response.status === 403 || response.status === 401) {
+            navigate("/");
+          }
+          return response.json();
+        })
+        .then(() => {
+          onDeletion();
+        })
+        .catch(err => {
+          setError(err);
+        });
+      }
+    }
   
     return (
       <div className="p-4 w-full">
@@ -82,6 +117,11 @@ const ReadPublication = ({ publicationId }: { publicationId: number }) => {
             ? 'Invalid Date'
             : updatedAtDate.toLocaleDateString()}
         </p>
+        {/* TODO: only visible to admins */}
+        <div className='max-w-max flex gap-1 items-baseline justify-center text-red-700 ml-auto cursor-pointer' onClick={handleDeletion}>
+          <BsTrash3 />
+          Eliminate
+        </div>
         <figure className="my-4 w-full max-h-[60vh] overflow-hidden flex justify-center">
           <img src={publication.image} alt={publication.title} className="w-full h-auto object-center object-cover" />
         </figure>

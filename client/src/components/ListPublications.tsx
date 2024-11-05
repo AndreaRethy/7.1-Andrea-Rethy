@@ -116,16 +116,18 @@ function likePublication(id: number) {
     <div className="p-4">
     {/* <Header /> */}
       <h2 className='text-slate-800 text-2xl font-bold text-left mb-2'>All Publications</h2>
-      <div className="flex flex-wrap justify-evenly overflow-hidden w-full">
+      <div className="flex flex-wrap justify-start overflow-hidden w-full gap-4">
         {
           Array.isArray(publications) && publications.length > 0 ? (
             publications.map((publication) => {
               const isLiked = likedPublications.includes(publication.id);
+              const isDeleted = publication.isDeleted;
       
               return (
+                isDeleted ? <></> :
                 <div
                   key={publication.id}
-                  className="w-[23%] min-h-96 rounded-md overflow-hidden border"
+                  className="w-[23%] max-w-[24%] min-h-96 rounded-md overflow-hidden border flex-grow"
                 >
                   <figure className="w-full h-64 overflow-hidden relative">
                     <img
