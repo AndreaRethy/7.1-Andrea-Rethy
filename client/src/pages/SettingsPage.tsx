@@ -137,7 +137,7 @@ const ProfilePage = () => {
   }
 
   const handleSignOut = () => {
-    // TODO: Empty sessionStorage
+    sessionStorage.clear();
     navigate("/");
   }
 
