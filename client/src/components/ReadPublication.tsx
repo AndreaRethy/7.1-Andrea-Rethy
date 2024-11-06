@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { BsTrash3 } from "react-icons/bs";
+import { jwtDecode } from "jwt-decode";
 
 const URL = "/api/v1/publications/"
 
@@ -17,6 +18,18 @@ type Publication = {
     authorname: string
   }
 
+  interface User {
+    createdAt: string;
+    id: number;
+    role: "USER" | "ADMIN";
+  }
+  
+  interface DecodedToken {
+    exp: number;
+    iat: number;
+    user: User;
+  }
+
   interface ReadPublicationProps {
     publicationId: number;
     onDeletion: () => void;
@@ -28,16 +41,21 @@ type Publication = {
     const [token, setToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    
+    const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
     useEffect(() => {
-        const storedToken = sessionStorage.getItem('token');
-        if (storedToken) {
-          setToken(storedToken);
-        } else {
-          navigate('/');
+      const storedToken = sessionStorage.getItem("token") ?? "";
+      setToken(storedToken);
+  
+      if (storedToken) {
+        const decoded: DecodedToken = jwtDecode<DecodedToken>(storedToken);
+        console.log(decoded)
+        if (decoded.user.role === "ADMIN") {
+          setIsAdmin(true);
         }
-      }, []);
+      }
+  
+    }, []);
   
     useEffect(() => {
       if (publicationId && token !== null) {
@@ -115,11 +133,12 @@ type Publication = {
             ? 'Invalid Date'
             : updatedAtDate.toLocaleDateString()}
         </p>
-        {/* TODO: only visible to admins */}
-        <div className='max-w-max flex gap-1 items-baseline justify-center text-red-700 ml-auto cursor-pointer' onClick={handleDeletion}>
+        
+        { isAdmin ? (<div className='max-w-max flex gap-1 items-baseline justify-center text-red-700 ml-auto cursor-pointer' onClick={handleDeletion}>
           <BsTrash3 />
           Eliminate
-        </div>
+        </div>) : <></>}
+        
         <figure className="my-4 w-full max-h-[60vh] overflow-hidden flex justify-center">
           <img src={publication.image} alt={publication.title} className="w-full h-auto object-center object-cover" />
         </figure>
