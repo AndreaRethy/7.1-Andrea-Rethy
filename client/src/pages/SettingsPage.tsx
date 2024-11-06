@@ -3,14 +3,28 @@ import { FaUser, FaLock, FaUserTag } from "react-icons/fa";
 import { FaClipboardUser, FaUserGear, FaUserLargeSlash, FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 
 const URL = "/api/v1/users/"
 
+interface User {
+  createdAt: string;
+  id: number;
+  role: "USER" | "ADMIN";
+}
+
+interface DecodedToken {
+  exp: number;
+  iat: number;
+  user: User;
+}
+
 const ProfilePage = () => {
   const navigate = useNavigate();
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
   const [role, setRole] = useState<"USER" | "ADMIN">("USER");
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [isBanned, setIsBanned] = useState<boolean>(false);
   const [myUserId, setMyUserId] = useState<number | null>(null);
   const [username, setUsername] = useState("");
@@ -18,9 +32,20 @@ const ProfilePage = () => {
   const [name, setName] = useState("");
 
   useEffect(() => {
-    setToken(sessionStorage.getItem("token"));
-    setMyUserId(Number(sessionStorage.getItem("userId")));
-  }, [token, myUserId]);
+    const storedToken = sessionStorage.getItem("token") ?? "";
+    setToken(storedToken);
+    const storedUserId = sessionStorage.getItem("userId");
+    setMyUserId(storedUserId ? Number(storedUserId) : null);
+
+    if (storedToken) {
+      const decoded: DecodedToken = jwtDecode<DecodedToken>(storedToken);
+      console.log(decoded)
+      if (decoded.user.role === "ADMIN") {
+        setIsAdmin(true);
+      }
+    }
+
+  }, []);
 
   useEffect(() => {
     if (myUserId != null) {
@@ -171,7 +196,8 @@ const ProfilePage = () => {
             </form>
           </div>
 
-          {/* TODO: Should be only visible to admins! */}
+          { isAdmin ? (
+
           <div className='m-4 p-20 rounded-xl backdrop-blur-lg shadow-md shadow-slate-500'>
             <form onSubmit={handleUserUpdate}>
               <h2 className='text-slate-900 text-5xl font-semibold my-4'>Update User</h2>
@@ -204,6 +230,7 @@ const ProfilePage = () => {
               <button type='submit' className='py-3 px-6 m-2 rounded-md bg-gradient-to-r from-cyan-500 to-blue-500 text-slate-900 font-semibold hover:opacity-85'>Submit</button>
             </form>
           </div>
+          ) : <></>}
           
         </div>
         <button className='rounded-lg text-xl font-semibold p-4 bg-slate-50 m-auto w-max' onClick={handleSignOut}>Sign Out</button>
