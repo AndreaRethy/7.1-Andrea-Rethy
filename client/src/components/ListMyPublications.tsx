@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { CiSaveUp2 } from "react-icons/ci";
+import { BsTrash3Fill } from "react-icons/bs";
 
 const URL = "/api/v1/publications";
 
@@ -85,6 +86,29 @@ function restorePublication(id:number) {
     .catch((error) => console.error('Error restoring publication:', error)); 
 }
 
+function handleDeletion(id: number) {
+  // check from token if user is admin
+  const isAdmin = true;
+  if (isAdmin) {
+    fetch(`${URL}/${id}/delete`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+    .then((response) => {
+      if (response.status === 403 || response.status === 401) {
+        navigate("/");
+      }
+      return response.json();
+    })
+    .then(() => getPublications())
+    .catch((error) => console.error('Error deleting publication:', error));
+  }
+}
+
   return (
     <div className="p-4">
       <h2 className='text-slate-800 text-2xl font-bold text-left'>My Publications</h2>
@@ -119,6 +143,7 @@ function restorePublication(id:number) {
                 <div key={publication.id} className="w-[23%] max-w-[24.5%] min-h-96 rounded-md overflow-hidden border flex-grow">
                   <figure className="w-full h-[14.5rem] overflow-hidden relative">
                     <img src={publication.image} className="object-cover object-center w-full h-full" />
+                    <BsTrash3Fill className="z-10 absolute top-2 left-4 text-xl text-red-600" onClick={() => handleDeletion(publication.id)} />
                   </figure>
                   <div className="text-slate-800 font-bold p-2">
                     {publication.title}
