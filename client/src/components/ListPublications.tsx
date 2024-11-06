@@ -56,16 +56,25 @@ function getLikedPublications() {
   .then((response) => {
     if (response.status === 403 || response.status === 401) {
       navigate("/");
+      return
     }
-    return response.json();
+    if (response.status === 404) {
+      console.log('No liked publications found for the user.');
+      setLikedPublications([]);
+      return;
+    }
   })
-  .then((data) => 
+  .then((data) => {
+    if (!Array.isArray(data)) {
+      return;
+    }
     data.map((publication: Publication) => {
       tempArray.push(publication.id)
       
     },
     setLikedPublications(tempArray)
-  ))
+    )
+  })
   .catch((error) => console.error('Error fetching publications:', error));
 }
 
