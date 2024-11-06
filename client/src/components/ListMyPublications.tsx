@@ -20,6 +20,7 @@ const ListMyPublications = ({ onRead }: { onRead: (id:number) => void }) => {
   const [token, setToken] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
   const [publications, setPublications] = useState<Publication[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem('token');
@@ -40,6 +41,7 @@ const ListMyPublications = ({ onRead }: { onRead: (id:number) => void }) => {
   }, [token]);
 
 function getPublications() {
+  setLoading(true);
   fetch(`${URL}/user/${username}`, {
     method: 'GET',
     headers: {
@@ -54,8 +56,14 @@ function getPublications() {
     }
     return response.json();
   })
-  .then((data) => setPublications(data))
-  .catch((error) => console.error('Error fetching publications:', error)); 
+  .then((data) => {
+    setPublications(data)
+    setLoading(false);
+  })
+  .catch((error) => {
+    console.error('Error fetching publications:', error)
+    setLoading(false);
+  }); 
 }
 
 function restorePublication(id:number) {
@@ -73,7 +81,7 @@ function restorePublication(id:number) {
       }
       return response.json();
     })
-    .then((data) => setPublications(data))
+    .then(() => getPublications())
     .catch((error) => console.error('Error restoring publication:', error)); 
 }
 
@@ -82,9 +90,10 @@ function restorePublication(id:number) {
       <h2 className='text-slate-800 text-2xl font-bold text-left'>My Publications</h2>
       <div className="flex flex-wrap justify-start overflow-hidden w-full gap-4">
         {
+          loading ? <p>Loading...</p> : 
           Array.isArray(publications) && publications.length > 0 ? (
             publications.map((publication) => {
-              const isDeleted = publication.isDeleted;
+              let isDeleted = publication.isDeleted;
               
               return (
                 isDeleted ? 
@@ -100,7 +109,10 @@ function restorePublication(id:number) {
                   </div>
                   <div className="flex justify-center items-center align-middle gap-1 w-full">
                     <CiSaveUp2 className="ml-2" />
-                    <button onClick={() => restorePublication(publication.id) }>Recover Post</button>
+                    <button onClick={() => { 
+                      restorePublication(publication.id)
+                      isDeleted = false
+                      }}>Recover Post</button>
                   </div>
                 </div>
                 :

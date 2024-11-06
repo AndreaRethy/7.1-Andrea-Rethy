@@ -124,7 +124,7 @@ function likePublication(id: number) {
               const isDeleted = publication.isDeleted;
       
               return (
-                isDeleted ? <></> :
+                isDeleted ? <div key={publication.id}></div> :
                 <div
                   key={publication.id}
                   className="w-[23%] max-w-[24.5%] min-h-96 rounded-md overflow-hidden border flex-grow"
