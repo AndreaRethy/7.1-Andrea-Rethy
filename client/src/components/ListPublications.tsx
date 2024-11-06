@@ -127,9 +127,9 @@ function likePublication(id: number) {
                 isDeleted ? <></> :
                 <div
                   key={publication.id}
-                  className="w-[23%] max-w-[24%] min-h-96 rounded-md overflow-hidden border flex-grow"
+                  className="w-[23%] max-w-[24.5%] min-h-96 rounded-md overflow-hidden border flex-grow"
                 >
-                  <figure className="w-full h-64 overflow-hidden relative">
+                  <figure className="w-full h-[14.5rem] overflow-hidden relative">
                     <img
                       src={publication.image}
                       alt={publication.title}

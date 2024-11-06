@@ -290,7 +290,7 @@ router.patch("/publications/:id/delete", authMiddlewareJWT, publicationControlle
 /**
  * @openapi
  * /api/v1/publications/{id}/restore:
- *   post:
+ *   patch:
  *     summary: Restore a deleted publication
  *     tags:
  *       - Publications

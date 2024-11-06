@@ -2,8 +2,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { CiSaveUp2 } from "react-icons/ci";
 
-const URL = "/api/v1/publications/user/";
+const URL = "/api/v1/publications";
 
 type Publication = {
   id: number,
@@ -39,7 +40,7 @@ const ListMyPublications = ({ onRead }: { onRead: (id:number) => void }) => {
   }, [token]);
 
 function getPublications() {
-  fetch(`${URL}${username}`, {
+  fetch(`${URL}/user/${username}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`,
@@ -57,19 +58,55 @@ function getPublications() {
   .catch((error) => console.error('Error fetching publications:', error)); 
 }
 
+function restorePublication(id:number) {
+    fetch(`${URL}/${id}/restore`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+    .then((response) => {
+      if (response.status === 403 || response.status === 401) {
+        navigate("/");
+      }
+      return response.json();
+    })
+    .then((data) => setPublications(data))
+    .catch((error) => console.error('Error restoring publication:', error)); 
+}
+
   return (
     <div className="p-4">
       <h2 className='text-slate-800 text-2xl font-bold text-left'>My Publications</h2>
-      <div className="flex flex-wrap justify-evenly overflow-hidden w-full">
+      <div className="flex flex-wrap justify-start overflow-hidden w-full gap-4">
         {
           Array.isArray(publications) && publications.length > 0 ? (
             publications.map((publication) => {
-              //const isDeleted = publication.isDeleted;
+              const isDeleted = publication.isDeleted;
               
               return (
-                <div key={publication.id} className="w-[23%] max-w-[24%] min-h-96 rounded-md overflow-hidden border flex-grow-0">
-                  <figure className="w-full h-64 overflow-hidden">
-                    <img src={publication.image} className="object-cover object-center" />
+                isDeleted ? 
+                <div key={publication.id} className="w-[23%] max-w-[24.5%] min-h-96 rounded-md overflow-hidden border flex-grow">
+                  <div className="opacity-30">
+                    <figure className="w-full h-[14.5rem] overflow-hidden relative">
+                      <img src={publication.image} className="object-cover object-center w-full h-full" />
+                    </figure>
+                    <div className="text-slate-800 font-bold p-2">
+                      {publication.title}
+                      <p className="font-normal pt-2">DELETED</p>
+                    </div>
+                  </div>
+                  <div className="flex justify-center items-center align-middle gap-1 w-full">
+                    <CiSaveUp2 className="ml-2" />
+                    <button onClick={() => restorePublication(publication.id) }>Recover Post</button>
+                  </div>
+                </div>
+                :
+                <div key={publication.id} className="w-[23%] max-w-[24.5%] min-h-96 rounded-md overflow-hidden border flex-grow">
+                  <figure className="w-full h-[14.5rem] overflow-hidden relative">
+                    <img src={publication.image} className="object-cover object-center w-full h-full" />
                   </figure>
                   <div className="text-slate-800 font-bold p-2">
                     {publication.title}
