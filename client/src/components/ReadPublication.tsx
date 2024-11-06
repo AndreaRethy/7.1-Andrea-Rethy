@@ -17,8 +17,6 @@ type Publication = {
     authorname: string
   }
 
-  
-
   interface ReadPublicationProps {
     publicationId: number;
     onDeletion: () => void;

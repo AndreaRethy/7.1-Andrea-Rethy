@@ -125,7 +125,7 @@ export class PublicationController {
     async updatePublication(req: Request, res: Response){
         const { id } = req.params;
         const ID = parseInt(id);
-        const { title, content } = req.body;
+        const { title, content, image } = req.body;
 
         if (!title || !content) {
             return res.status(400).json({ message: "Missing values" });
@@ -136,7 +136,7 @@ export class PublicationController {
         }
 
         try {
-            const updatedPublication = await publicationService.updatePublication(ID, {title, content});
+            const updatedPublication = await publicationService.updatePublication(ID, {title, content, image});
             return res.status(200).json(updatedPublication)
         } catch (error: any) {
             return res.status(500).json({ error: error.message });

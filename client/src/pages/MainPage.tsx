@@ -1,14 +1,16 @@
-import Sidebar, { SidebarItem } from '../components/SideBar';
-import ListPublications from '../components/ListPublications';
-import ListMyPublications from '../components/ListMyPublications';
-import ReadPublication from '../components/ReadPublication';
-import Users from '../components/Users';
 import { FaUsers } from "react-icons/fa";
 import { FaList } from "react-icons/fa6";
 import { LuPlusSquare } from "react-icons/lu";
 import { CiBookmark } from "react-icons/ci";
 import { useState } from 'react';
+
+import Sidebar, { SidebarItem } from '../components/SideBar';
+import ListPublications from '../components/ListPublications';
+import ListMyPublications from '../components/ListMyPublications';
+import ReadPublication from '../components/ReadPublication';
+import Users from '../components/Users';
 import NewPost from '../components/NewPost';
+import EditPost from '../components/EditPost';
 
 
 const MainPage: React.FC = () => {
@@ -28,6 +30,11 @@ const MainPage: React.FC = () => {
     setView(4);
   };
 
+  const handleEdit = (id: number) => {
+    setSelectedPublicationId(id);
+    setView(5);
+  };
+
   return (
     <section className='flex min-h-full bg-slate-50 w-full relative'>
         <Sidebar>
@@ -40,9 +47,10 @@ const MainPage: React.FC = () => {
         <div className='content-view min-h-full w-full flex-1 overflow-auto'>
             {view === 0 && <ListPublications onRead={handleRead} />}
             {view === 1 && <NewPost onPostSuccess={handlePostSuccess} />}
-            {view === 2 && <ListMyPublications onRead={handleRead} />}
+            {view === 2 && <ListMyPublications onEdit={handleEdit} />}
             {view === 3 && <Users />}
             {view === 4 && <ReadPublication publicationId={selectedPublicationId} onDeletion={loadHome} />}
+            {view === 5 && <EditPost publicationId={selectedPublicationId} onEditSuccess={handlePostSuccess} />}
         </div>
     </section>
   );

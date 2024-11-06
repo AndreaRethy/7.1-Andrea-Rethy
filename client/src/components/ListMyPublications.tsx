@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaArrowRightLong } from "react-icons/fa6";
+import { CiEdit } from "react-icons/ci";
 import { CiSaveUp2 } from "react-icons/ci";
 import { BsTrash3Fill } from "react-icons/bs";
 
@@ -16,7 +16,7 @@ type Publication = {
   authorname: string
 }
 
-const ListMyPublications = ({ onRead }: { onRead: (id:number) => void }) => {
+const ListMyPublications = ({ onEdit }: { onEdit: (id:number) => void }) => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
@@ -147,9 +147,10 @@ function handleDeletion(id: number) {
                   </figure>
                   <div className="text-slate-800 font-bold p-2">
                     {publication.title}
-                    <div className="font-normal pt-2" onClick={() => onRead(publication.id)}>
+                    <div className="font-normal pt-2 w-max ml-auto" onClick={() => onEdit(publication.id)}>
                         <a href="#" className="flex items-center">
-                          Read more <FaArrowRightLong className="ml-2" />
+                          <CiEdit className="mr-1" />
+                          Edit
                         </a>
                       </div>
                   </div>
