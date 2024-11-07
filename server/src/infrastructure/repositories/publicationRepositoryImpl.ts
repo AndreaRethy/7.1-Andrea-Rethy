@@ -74,23 +74,30 @@ export class publicationRepositoryImpl {
     async likePublication(publicationId: number, userId: number): Promise<Publication> {
         try {
             const alreadyLiked = await this.hasUserLiked(publicationId, userId);
-            if (alreadyLiked) {
-              throw new Error('User has already liked this publication.');
-            }
 
-            const updatedPublication = await prisma.$transaction(async (tx) => {
-              const publication = await tx.publication.update({
-                where: { id: publicationId },
-                data: {
-                  likeCount: { increment: 1 },
-                  likedBy: { connect: { id: userId } },
-                },
-              });
-      
-              return publication;
-            });
-      
-            return updatedPublication;
+        const updatedPublication = await prisma.$transaction(async (tx) => {
+            let publication;
+            if (alreadyLiked) {
+                publication = await tx.publication.update({
+                    where: { id: publicationId },
+                    data: {
+                        likeCount: { decrement: 1 },
+                        likedBy: { disconnect: { id: userId } },
+                    },
+                });
+            } else {
+                publication = await tx.publication.update({
+                    where: { id: publicationId },
+                    data: {
+                        likeCount: { increment: 1 },
+                        likedBy: { connect: { id: userId } },
+                    },
+                });
+            }
+            return publication;
+        });
+
+        return updatedPublication;
         } catch (error) {
             throw new Error(`Publication not found or error updating publication: ${error}`);
           }
