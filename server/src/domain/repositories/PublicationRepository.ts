@@ -10,5 +10,6 @@ export interface publicationRepository {
     likePublication(publicationId: Number): Promise<Publication | null>;
     updatePublication(publicationId: Number): Promise<Publication | null>;
     deletePublication(publicationId: Number): Promise<Publication | null>;
+    hardDeletePublication(publicationId: Number): Promise<Publication | null>;
     restorePublication(publicationId: Number): Promise<Publication | null>;
 }

@@ -96,7 +96,7 @@ type Publication = {
       const isAdmin = true;
       if (isAdmin) {
         fetch(`${URL}${publicationId}/delete`, {
-          method: 'PATCH',
+          method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',

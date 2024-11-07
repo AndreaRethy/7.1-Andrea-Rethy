@@ -159,6 +159,22 @@ export class PublicationController {
         }
     }
 
+    async hardDeletePublication(req: Request, res: Response){
+        const { id } = req.params;
+        const ID = parseInt(id);
+
+        if (isNaN(ID)) {
+            return res.status(400).json({ message: "invalid publication id" });
+        }
+
+        try {
+            const deletedPublication = await publicationService.hardDeletePublication(ID);
+            return res.status(200).json(deletedPublication)
+        } catch (error: any) {
+            return res.status(500).json({ error: error.message });
+        }
+    }
+
     async restorePublication(req: Request, res: Response){
         const { id } = req.params;
         const ID = parseInt(id);

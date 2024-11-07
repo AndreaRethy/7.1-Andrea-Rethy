@@ -60,6 +60,14 @@ export class PublicationService {
         return await this.publicationRepository.deletePublication(id);
     }
 
+    async hardDeletePublication(id: number): Promise<Publication> {
+        const publication = await this.publicationRepository.getPublicationById(id);
+        if (!publication) {
+            throw new Error("Publication not found");
+        }
+        return await this.publicationRepository.hardDeletePublication(id);
+    }
+
     async restorePublication(id: number): Promise<Publication> {
         const publication = await this.publicationRepository.getPublicationById(id);
         if (!publication) {

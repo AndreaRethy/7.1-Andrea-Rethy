@@ -2,6 +2,7 @@ import { Router } from "express";
 import { PublicationController } from "../infrastructure/controllers/publicationController.js";
 
 import authMiddlewareJWT from "../middleware/authMiddleware.js";
+import adminAuth from "../middleware/adminAuth.js";
 
 const router = Router();
 const publicationController = new PublicationController();
@@ -316,5 +317,35 @@ router.patch("/publications/:id/delete", authMiddlewareJWT, publicationControlle
  *         description: Internal server error.
  */
 router.patch("/publications/:id/restore", authMiddlewareJWT, publicationController.restorePublication);
+
+/**
+ * @openapi
+ * /api/v1/publications/{id}/delete:
+ *   delete:
+ *     summary: Hard delete a specific publication
+ *     tags:
+ *       - Publications
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Publication ID
+ *     responses:
+ *       200:
+ *         description: Publication deleted successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Publication'
+ *       400:
+ *         description: Invalid publication ID.
+ *       500:
+ *         description: Internal server error.
+ */
+router.delete("/publications/:id/delete", adminAuth, publicationController.hardDeletePublication);
 
 export default router;

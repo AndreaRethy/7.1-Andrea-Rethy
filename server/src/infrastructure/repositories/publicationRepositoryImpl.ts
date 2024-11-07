@@ -123,6 +123,16 @@ export class publicationRepositoryImpl {
           }
     }
 
+    async hardDeletePublication(id: number): Promise<Publication>  {
+        try {
+            return await prisma.publication.delete({
+                where: { id },
+              });
+        } catch (error) {
+            throw new Error(`Publication not found or error deleting publication: ${error}`);
+          }
+    }
+
     async restorePublication(id: number): Promise<Publication>  {
         try {
             return await prisma.publication.update({
