@@ -17,6 +17,9 @@ export class publicationRepositoryImpl {
                 username: username,
               },
             },
+            orderBy: {
+                createdAt: 'desc',
+            },
           });
     }
 
