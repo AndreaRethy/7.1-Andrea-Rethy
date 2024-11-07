@@ -3,7 +3,11 @@ import { Publication } from "@prisma/client";
 
 export class publicationRepositoryImpl {
     async getAllPublications(): Promise<Publication[]> {
-        return await prisma.publication.findMany();
+        return await prisma.publication.findMany({
+            orderBy: {
+                createdAt: 'desc',
+            },
+        });
     }
 
     async getPublicationsForUser(username: string): Promise<Publication[]> {
