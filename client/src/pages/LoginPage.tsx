@@ -22,10 +22,14 @@ const LoginPage: React.FC = () => {
       .then((data) => {
         console.log(data)
         if (data.accessToken) {
-          sessionStorage.setItem("userId", data.id.toString());
-          sessionStorage.setItem("username", data.username);
-          sessionStorage.setItem("token", data.accessToken);
-          navigate("/home");
+          if (data.isBanned) {
+            alert("This user is banned")
+          } else {
+            sessionStorage.setItem("userId", data.id.toString());
+            sessionStorage.setItem("username", data.username);
+            sessionStorage.setItem("token", data.accessToken);
+            navigate("/home");
+          }
         } else {
           alert("Invalid user! Try again")
         }
