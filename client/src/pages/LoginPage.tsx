@@ -20,23 +20,23 @@ const LoginPage: React.FC = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
-        if (data.accessToken) {
-          if (data.isBanned) {
-            alert("This user is banned")
-          } else {
-            sessionStorage.setItem("userId", data.id.toString());
-            sessionStorage.setItem("username", data.username);
-            sessionStorage.setItem("token", data.accessToken);
-            navigate("/home");
-          }
-        } else {
-          alert("Invalid user! Try again")
+        console.log(data);
+        
+        if (data.isBanned) {
+          alert("This user is banned");
+          return;
         }
-      }
-      )
-      .catch((error) => alert(`Error:, ${error}`)
-    );
+        
+        if (data.accessToken) {
+          sessionStorage.setItem("userId", data.id.toString());
+          sessionStorage.setItem("username", data.username);
+          sessionStorage.setItem("token", data.accessToken);
+          navigate("/home");
+        } else {
+          alert("Invalid user! Try again");
+        }
+      })
+      .catch((error) => alert(`Error: ${error}`));
   }
 
   const handleLogin = (e: React.FormEvent) => {

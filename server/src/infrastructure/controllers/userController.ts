@@ -61,7 +61,8 @@ export class UserController {
                 accessToken: token,
                 username: username,
                 id: user.id,
-                role: user.role
+                role: user.role,
+                isBanned: user.isBanned
               });
             } else {
               return res.send("Not Allowed")
