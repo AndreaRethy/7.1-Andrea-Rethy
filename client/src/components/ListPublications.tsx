@@ -101,29 +101,34 @@ function likePublication(id: number) {
       'Content-Type': 'application/json',
     },
     credentials: 'include',
-    body: JSON.stringify(
-      { 
-          "userId": userId,
+    body: JSON.stringify({ "userId": userId }),
+  })
+    .then((response) => {
+      if (response.status === 403 || response.status === 401) {
+        navigate("/");
       }
-    ),
-  })
-  .then((response) => {
-    if (response.status === 403 || response.status === 401) {
-      navigate("/");
-    }
-    return response.json();
-  })
-  .then((data) => {
-    console.log('Like Publication Response:', data);
-    setPublications((prevPublications) =>
-      prevPublications.map((pub) =>
-        pub.id === data.id ? { ...pub, likeCount: data.likeCount } : pub
-      )
-    );
-    setLikedPublications((prevLiked) => [...prevLiked, data.id]);
-  })
-  .catch((error) => console.error('Error fetching publications:', error));
+      return response.json();
+    })
+    .then((data) => {
+      console.log('Like Publication Response:', data);
+
+      setPublications((prevPublications) =>
+        prevPublications.map((pub) =>
+          pub.id === data.id ? { ...pub, likeCount: data.likeCount } : pub
+        )
+      );
+
+      setLikedPublications((prevLiked) => {
+        if (prevLiked.includes(data.id)) {
+          return prevLiked.filter((pubId) => pubId !== data.id);
+        } else {
+          return [...prevLiked, data.id];
+        }
+      });
+    })
+    .catch((error) => console.error('Error fetching publications:', error));
 }
+
 
   return (
     <div className="p-4">
@@ -149,7 +154,7 @@ function likePublication(id: number) {
                       className="object-cover object-center w-full h-full"
                     />
                     {isLiked ? (
-                      <FaHeart className="z-10 absolute top-2 right-4 text-xl text-pink-500" />
+                      <FaHeart className="z-10 absolute top-2 right-4 text-xl text-pink-500 cursor-pointer" onClick={() => likePublication(publication.id)} />
                     ) : (
                       <FaRegHeart className="z-10 absolute top-2 right-4 text-xl text-white cursor-pointer" onClick={() => likePublication(publication.id)}/>
                     )}
