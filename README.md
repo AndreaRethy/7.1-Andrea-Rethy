@@ -26,7 +26,7 @@ This blog app allows users to register and log in to create and interact with co
 * **Built With:** TypeScript, Express API, MySQL database using Prisma ORM, React with Tailwind.
 * **Testing:** Unit tests with Vitest, API routes test with Rest Client, Continues Integration with GitHub Actions
 * **Architecture:** Clean Architecture for scalable and maintainable code.
-* **Documentation:** Comprehensive API documentation with Swagger. To access Swagger documentation follow local setup instructions until backend is server is running. Access link will be in the logs.
+* **Documentation:** Comprehensive API documentation with Swagger. To access Swagger documentation follow local setup instructions until backend is server is running. Access link: http://localhost:3000/api/v1/docs
 
 ## Local Setup Instructions
 
