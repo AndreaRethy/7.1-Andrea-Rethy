@@ -14,7 +14,7 @@ export type User = {
 
 const Users = () => {
   const navigate = useNavigate();
-  const [ users, setUsers ] = useState<User[]>([])
+  const [users, setUsers ] = useState<User[]>([])
   const [token, setToken] = useState<string | null>(null);
 
   const onWindowLoad = () => {

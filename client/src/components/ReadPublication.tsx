@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 
 const URL = "/api/v1/publications/"
 
-type Publication = {
+  type Publication = {
     id: number,
     title: string,
     image: string,
@@ -42,6 +42,7 @@ type Publication = {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
+    const [popularity, setPopularity] = useState<number>(0);
 
     useEffect(() => {
       const storedToken = sessionStorage.getItem("token") ?? "";
@@ -75,6 +76,7 @@ type Publication = {
           })
           .then(data => {
             setPublication(data);
+            getPopularity(data);
             setLoading(false);
           })
           .catch(err => {
@@ -92,7 +94,6 @@ type Publication = {
     const updatedAtDate = new Date(publication.updatedAt);
     
     function handleDeletion() {
-      // check from token if user is admin
       const isAdmin = true;
       if (isAdmin) {
         fetch(`${URL}${publicationId}/delete`, {
@@ -117,6 +118,35 @@ type Publication = {
         });
       }
     }
+
+    function getPopularity(publicationData: Publication) {
+      fetch(`${URL}`, {
+        method: 'GET',
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      })
+      .then((response) => {
+        if (response.status === 403 || response.status === 401) {
+          navigate("/");
+        }
+        return response.json();
+      })
+      .then((data: Publication[]) => {
+        if (!data || data.length <= 1) {
+          console.warn('Insufficient data to calculate popularity.');
+          setPopularity(0);
+          return;
+        }
+        const popularityValue = (publicationData.likeCount / (data.length - 1)) * 100;
+        console.log('Calculated Popularity:', popularityValue);
+        setPopularity(popularityValue);
+      })
+        .catch((error) => console.error('Error:', error));
+    }
+    
   
     return (
       <div className="p-4 w-full">
@@ -132,6 +162,9 @@ type Publication = {
           {isNaN(updatedAtDate.getTime())
             ? 'Invalid Date'
             : updatedAtDate.toLocaleDateString()}
+        </p>
+        <p>
+          Popularity: {popularity}% 
         </p>
         
         { isAdmin ? (<div className='max-w-max flex gap-1 items-baseline justify-center text-red-700 ml-auto cursor-pointer' onClick={handleDeletion}>
