@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import background from '../assets/background.jpg';
 import { FaUser, FaLock, FaUserTag } from "react-icons/fa";
 import { FaClipboardUser, FaUserGear, FaUserLargeSlash, FaArrowLeftLong } from "react-icons/fa6";
@@ -51,7 +52,8 @@ const ProfilePage = () => {
     if (myUserId != null) {
       getUser()
     }
-  })
+  }, [myUserId, token])
+  
 
   function getUser() {
     fetch(`${URL}${myUserId}`, {
@@ -177,19 +179,19 @@ const ProfilePage = () => {
 
               {/* Name */}
               <div className='relative'>
-                <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 opacity-70 appearance-none' type='text' placeholder='Name' required value={name} id='name' onChange={(e) => setName(e.target.value)} />
+                <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 opacity-70 appearance-none min-w-full' type='text' placeholder='Name' required value={name} id='name' onChange={(e) => setName(e.target.value)} />
                 <FaUser className='text-slate-900 absolute right-8 top-1/2 -translate-y-2/4' />
               </div>
 
               {/* Username */}
               <div className='relative'>
-                <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 opacity-70 appearance-none' type='text' placeholder='Username' required value={username} id='username' onChange={(e) => setUsername(e.target.value)} />
+                <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 opacity-70 appearance-none min-w-full' type='text' placeholder='Username' required value={username} id='username' onChange={(e) => setUsername(e.target.value)} />
                 <FaUserTag className='text-slate-900 absolute right-8 top-1/2 -translate-y-2/4' />
               </div>
 
               {/* Password */}
               <div className='relative'>
-                <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 opacity-70 appearance-none' type='password' placeholder='Password' required value={password} id='username' onChange={(e) => setPassword(e.target.value)} />
+                <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 opacity-70 appearance-none min-w-full' type='password' placeholder='Password' required value={password} id='password' onChange={(e) => setPassword(e.target.value)} />
                 <FaLock className='text-slate-900 absolute right-8 top-1/2 -translate-y-2/4'/>
               </div>
               <button type='submit' className='py-3 px-6 m-2 rounded-md bg-gradient-to-r from-cyan-500 to-blue-500 text-slate-900 font-semibold hover:opacity-85'>Submit</button>
@@ -204,7 +206,7 @@ const ProfilePage = () => {
 
               {/* ID */}
               <div className='relative'>
-                <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 opacity-70 appearance-none' type='string' placeholder='User ID' required value={userId} id='userId' onChange={(e) => setUserId(e.target.value)} />
+                <input className='rounded-md p-3 my-3 border border-slate-900 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 transition duration-200 bg-slate-50 opacity-70 appearance-none min-w-full' type='string' placeholder='User ID' required value={userId} id='userId' onChange={(e) => setUserId(e.target.value)} />
                 <FaClipboardUser className='text-slate-900 absolute right-8 top-1/2 -translate-y-2/4' />
               </div>
 
