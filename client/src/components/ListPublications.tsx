@@ -15,7 +15,7 @@ type Publication = {
   authorname: string
 }
 
-const tempArray: number[] = [];
+//const tempArray: number[] = [];
 
 const ListPublications = ({ onRead }: { onRead: (id:number) => void }) => {
   const navigate = useNavigate();
@@ -44,39 +44,35 @@ const ListPublications = ({ onRead }: { onRead: (id:number) => void }) => {
     }
   }, [token]);
 
-function getLikedPublications() {
-  fetch(`/api/v1/publications/likedbyuser/${userId}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-  })
-  .then((response) => {
-    if (response.status === 403 || response.status === 401) {
-      navigate("/");
-      return
-    }
-    if (response.status === 404) {
-      console.log('No liked publications found for the user.');
-      setLikedPublications([]);
-      return;
-    }
-  })
-  .then((data) => {
-    if (!Array.isArray(data)) {
-      return;
-    }
-    data.map((publication: Publication) => {
-      tempArray.push(publication.id)
-      
-    },
-    setLikedPublications(tempArray)
-    )
-  })
-  .catch((error) => console.error('Error fetching publications:', error));
-}
+  function getLikedPublications() {
+    fetch(`/api/v1/publications/likedbyuser/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+    .then((response) => {
+      if (response.status === 403 || response.status === 401) {
+        navigate("/");
+        return null;
+      }
+      if (response.status === 404) {
+        console.log('No liked publications found for the user.');
+        setLikedPublications([]);
+        return null;
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data && Array.isArray(data)) {
+        const likedIds = data.map((publication: Publication) => publication.id);
+        setLikedPublications(likedIds);
+      }
+    })
+    .catch((error) => console.error('Error fetching liked publications:', error));
+  }  
 
 function getPublications() {
   fetch(`${URL}`, {
@@ -117,7 +113,15 @@ function likePublication(id: number) {
     }
     return response.json();
   })
-  .then((data) => setPublications(data))
+  .then((data) => {
+    console.log('Like Publication Response:', data);
+    setPublications((prevPublications) =>
+      prevPublications.map((pub) =>
+        pub.id === data.id ? { ...pub, likeCount: data.likeCount } : pub
+      )
+    );
+    setLikedPublications((prevLiked) => [...prevLiked, data.id]);
+  })
   .catch((error) => console.error('Error fetching publications:', error));
 }
 
