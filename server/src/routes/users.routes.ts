@@ -22,13 +22,14 @@ const userController = new UserController();
  *       401:
  *         description: Unauthorized
  */
-router.get("/users", adminAuth, userController.getAllUsers);
+router.get("/users", authMiddlewareJWT, userController.getAllUsers);
+// normal auth is used in order to calculate popularity in posts
 
 /**
  * @openapi
  * /api/v1/users/{id}:
  *   patch:
- *     summary: Update user role and/or ban status
+ *     summary: ADMIN ONLY - Update user role and/or ban status
  *     tags:
  *       - Users
  *     security:

@@ -70,14 +70,14 @@ router.get("/publications/user/:username", authMiddlewareJWT, publicationControl
  * @openapi
  * /api/v1/publications/likedbyuser/{id}:
  *   get:
- *     summary: Retrieve publications liked by a specific user
+ *     summary: Retrieve a list publications liked by a specific user
  *     tags:
  *       - Publications
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         id: userId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -322,7 +322,7 @@ router.patch("/publications/:id/restore", authMiddlewareJWT, publicationControll
  * @openapi
  * /api/v1/publications/{id}/delete:
  *   delete:
- *     summary: Hard delete a specific publication
+ *     summary: ADMIN ONLY - Hard delete a specific publication
  *     tags:
  *       - Publications
  *     security:

@@ -1,3 +1,4 @@
+/*  THIS COMPONENT IS NOT USED  */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
